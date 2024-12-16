@@ -3,18 +3,18 @@
 import { Bell, Ellipsis, LogIn, MessageCircleMore, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import ProfileButton from "./profile-button";
-import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuContent,
 } from "../ui/dropdown-menu";
-import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import DarkModeSwitch from "./dark-mode-switch";
 import Link from "next/link";
+import { useAppSelector } from "@/lib/store";
 
 export default function NavbarButtons() {
-  const [user, setUser] = useState<string | null>(null);
+  const { user } = useAppSelector((state) => state.user);
 
   return (
     <div className="flex items-center">
@@ -40,13 +40,13 @@ export default function NavbarButtons() {
             </Button>
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger className="h-10 w-10 inline-block p-2 hover:bg-gray-100 rounded-full">
+            <DropdownMenuTrigger className="h-10 w-10 inline-block p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
               <Ellipsis strokeWidth={1.5} />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="end"
               sideOffset={8}
-              className="w-48 bg-white shadow-lg px-0 border rounded-md p-2 text-gray-800">
+              className="w-48 shadow-lg px-0 border rounded-md p-2">
               <DropdownMenuItem className="rounded-none">
                 <Link
                   href="/login"

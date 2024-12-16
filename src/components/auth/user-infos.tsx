@@ -9,6 +9,8 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { axiosErrorCatch } from "../../lib/axios";
+import { useAppDispatch } from "@/lib/store";
+import { stateLogin } from "@/lib/store/slices/userSlice";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
@@ -33,6 +35,7 @@ export default function UserInfos({ email }: { email: string }) {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     values,
@@ -59,7 +62,7 @@ export default function UserInfos({ email }: { email: string }) {
         return;
       }
       try {
-        await axios.post(
+        const { data } = await axios.post(
           "/auth/register",
           {
             email,
@@ -70,6 +73,8 @@ export default function UserInfos({ email }: { email: string }) {
             withCredentials: true,
           }
         );
+
+        dispatch(stateLogin(data.data));
 
         router.push("/");
       } catch (error) {

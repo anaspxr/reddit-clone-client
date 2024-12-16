@@ -11,6 +11,9 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import axios, { axiosErrorCatch } from "@/lib/axios";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/store";
+import { stateLogin } from "@/lib/store/slices/userSlice";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
@@ -28,6 +31,8 @@ const validationSchema = toFormikValidationSchema(
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     values,
@@ -45,8 +50,13 @@ export default function LoginForm() {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setError(null);
       try {
-        await axios.post("/auth/login", values, { withCredentials: true });
+        const { data } = await axios.post("/auth/login", values, {
+          withCredentials: true,
+        });
+        dispatch(stateLogin(data.data));
+        router.push("/");
       } catch (error) {
         setError(axiosErrorCatch(error));
       } finally {
@@ -56,7 +66,7 @@ export default function LoginForm() {
   });
 
   return (
-    <div className="w-full max-w-lg border rounded-2xl py-8 sm:px-16 shadow-md space-y-4 m-auto p-4 relative mt-8">
+    <div className="w-full max-w-lg border rounded-2xl py-8 sm:px-16 shadow-md space-y-4 m-auto p-4 relative">
       <div>
         <h1 className="text-2xl font-semibold">Log In</h1>
       </div>

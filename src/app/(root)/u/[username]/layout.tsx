@@ -45,7 +45,7 @@ export default function UserProfileLayout({
   }, [username]);
 
   return (
-    <div className="sm:px-8 py-4 ">
+    <div className="sm:px-8 py-4">
       {loading ? (
         <div className="h-full flex items-center justify-center">
           <Spinner />

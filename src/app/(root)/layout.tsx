@@ -12,7 +12,7 @@ export default function Layout({
         <Navbar />
         <div className="flex h-[calc(100vh-60px)]">
           <Sidebar />
-          <div>{children}</div>
+          <div className="w-full overflow-y-auto">{children}</div>
         </div>
       </SidebarStateProvider>
     </div>

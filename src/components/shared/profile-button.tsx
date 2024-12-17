@@ -61,9 +61,11 @@ export default function ProfileButton() {
           <LogOut /> Log Out
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="px-5 py-4 rounded-none">
-          <Settings /> Settings
-        </DropdownMenuItem>
+        <Link href="/settings">
+          <DropdownMenuItem className="px-5 py-4 rounded-none cursor-pointer">
+            <Settings /> Settings
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

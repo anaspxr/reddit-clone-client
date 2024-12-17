@@ -1,15 +1,25 @@
-import { User } from "@/lib/types/userTypes";
+import { User, UserProfile } from "@/lib/types/userTypes";
 import { createSlice } from "@reduxjs/toolkit";
-import { hydrateUser, logoutUser } from "../async-thunks/user-thunks";
+import {
+  getUserProfile,
+  hydrateUser,
+  logoutUser,
+} from "../async-thunks/user-thunks";
 
 interface UserState {
   user: User | null;
+  userProfile: UserProfile | null;
   loading: boolean;
+  userProfileLoading: boolean;
+  userProfileError: string | null;
 }
 
 const initialState: UserState = {
   user: null,
+  userProfile: null,
   loading: false,
+  userProfileLoading: false,
+  userProfileError: null,
 };
 
 const userSlice = createSlice({
@@ -48,6 +58,19 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state) => {
         state.loading = false;
+      })
+
+      .addCase(getUserProfile.pending, (state) => {
+        state.userProfileLoading = true;
+        state.userProfileError = null;
+      })
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.userProfile = action.payload;
+        state.userProfileLoading = false;
+      })
+      .addCase(getUserProfile.rejected, (state, action) => {
+        state.userProfileError = action.payload as string;
+        state.userProfileLoading = false;
       });
   },
 });

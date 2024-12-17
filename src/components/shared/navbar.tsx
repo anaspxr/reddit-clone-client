@@ -6,7 +6,7 @@ import { SidebarTrigger } from "./sidebar";
 
 export default function Navbar() {
   return (
-    <div className="px-4 py-2 flex justify-between border-b gap-2 bg-white dark:bg-gray-900">
+    <div className="px-4 py-2 flex justify-between border-b gap-2 bg-white dark:bg-gray-950">
       <SidebarTrigger />
       <div className="flex gap-2 items-center flex-shrink-0">
         <Link href="/" className="flex items-center gap-2">

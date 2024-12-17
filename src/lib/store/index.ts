@@ -16,7 +16,7 @@ const persistConfig = {
   // for persisting user's data on browser
   key: "user",
   storage,
-  whiteList: ["user"],
+  whitelist: ["user"],
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);

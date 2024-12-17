@@ -17,13 +17,7 @@ import { stateLogin } from "@/lib/store/slices/userSlice";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
-    email: z
-      .string({ message: "User name is required" })
-      .min(3, "Username must be at least 3 characters long")
-      .regex(
-        /^[a-zA-Z0-9_]+$/,
-        "Username can only contain letters, numbers and underscores"
-      ),
+    email: z.string({ message: "User name is required" }),
     password: z.string({ message: "Enter your password" }),
   })
 );

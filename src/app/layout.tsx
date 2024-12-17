@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/shared/navbar";
 import StoreProvider from "@/lib/store/store-provider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,7 +19,6 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class">
           <StoreProvider>
-            <Navbar />
             {children}
             <Toaster />
           </StoreProvider>

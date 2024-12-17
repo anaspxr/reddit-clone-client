@@ -14,7 +14,7 @@ export default function Navbar() {
         </Button>
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="reddit-logo.svg"
+            src="/reddit-logo.svg"
             alt="Reddit Logo"
             width={35}
             height={35}

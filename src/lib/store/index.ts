@@ -1,12 +1,39 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+
+const persistConfig = {
+  // for persisting user's data on browser
+  key: "user",
+  storage,
+  whiteList: ["user"],
+};
+
+const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      user: userReducer,
+      user: persistedUserReducer,
     },
+
+    devTools: process.env.NODE_ENV !== "production",
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
   });
 };
 

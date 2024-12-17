@@ -11,10 +11,11 @@ import Image from "next/image";
 import Link from "next/link";
 import DarkModeSwitch from "./dark-mode-switch";
 import { LogOut, Settings } from "lucide-react";
-import { useAppDispatch } from "@/lib/store";
+import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { logoutUser } from "@/lib/store/async-thunks/user-thunks";
 
 export default function ProfileButton() {
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   return (
     <DropdownMenu>
@@ -31,7 +32,7 @@ export default function ProfileButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-60 px-0">
         <DropdownMenuItem>
-          <Link href={`/user/${1}`} className="w-full h-full">
+          <Link href={`/u/${user?.username}`} className="w-full h-full">
             <div className="flex items-center gap-4 p-2">
               <Image
                 src="/avatar-default.png"
@@ -42,7 +43,9 @@ export default function ProfileButton() {
               />
               <div className="flex flex-col">
                 <span className="text-sm">View Profile</span>
-                <span className="text-gray-500 text-xs">u/johndoe</span>
+                <span className="text-gray-500 text-xs">
+                  u/{user?.username}
+                </span>
               </div>
             </div>
           </Link>

@@ -35,6 +35,7 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(hydrateUser.rejected, (state) => {
+        state.user = null;
         state.loading = false;
       })
 

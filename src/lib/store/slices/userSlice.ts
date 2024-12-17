@@ -4,6 +4,8 @@ import {
   getUserProfile,
   hydrateUser,
   logoutUser,
+  updateUserAbout,
+  updateUserDisplayName,
 } from "../async-thunks/user-thunks";
 
 interface UserState {
@@ -71,6 +73,17 @@ const userSlice = createSlice({
       .addCase(getUserProfile.rejected, (state, action) => {
         state.userProfileError = action.payload as string;
         state.userProfileLoading = false;
+      })
+
+      .addCase(updateUserDisplayName.fulfilled, (state, action) => {
+        if (state.userProfile) {
+          state.userProfile.displayName = action.payload;
+        }
+      })
+      .addCase(updateUserAbout.fulfilled, (state, action) => {
+        if (state.userProfile) {
+          state.userProfile.about = action.payload;
+        }
       });
   },
 });

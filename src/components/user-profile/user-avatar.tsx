@@ -1,7 +1,11 @@
-import { User } from "@/lib/types/userTypes";
+import { UserProfile } from "@/lib/types/userTypes";
 import Image from "next/image";
 
-export default function UserAvatar({ avatar, username, displayName }: User) {
+export default function UserAvatar({
+  avatar,
+  username,
+  displayName,
+}: UserProfile) {
   return (
     <div className="flex gap-4 items-center">
       <Image

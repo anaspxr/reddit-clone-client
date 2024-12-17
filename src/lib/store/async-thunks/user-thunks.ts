@@ -49,3 +49,39 @@ export const getUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const updateUserDisplayName = createAsyncThunk(
+  "user/updateDisplayName",
+  async (displayName: string, { rejectWithValue }) => {
+    try {
+      await axios.put(
+        "/user/displayname",
+        { displayName },
+        { withCredentials: true }
+      );
+      return displayName;
+    } catch (error) {
+      toast({
+        title: "Error updating display name",
+        description: axiosErrorCatch(error),
+      });
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);
+
+export const updateUserAbout = createAsyncThunk(
+  "user/updateAbout",
+  async (about: string, { rejectWithValue }) => {
+    try {
+      await axios.put("/user/about", { about }, { withCredentials: true });
+      return about;
+    } catch (error) {
+      toast({
+        title: "Error updating about description",
+        description: axiosErrorCatch(error),
+      });
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);

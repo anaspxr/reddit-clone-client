@@ -3,16 +3,20 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ArrowLeft } from "lucide-react";
+import axios, { axiosErrorCatch } from "@/lib/axios";
 
 export default function OtpVerify({
+  email,
   setStep,
 }: {
+  email: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [sending, setSending] = useState(true);
+  const [sending, setSending] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [resendTime, setResendTime] = useState(30);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (sending) {
@@ -49,14 +53,18 @@ export default function OtpVerify({
     }
   };
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
-    if (value !== "123456") {
-      setError("Invalid OTP!! Try again.");
-    } else {
+    try {
+      await axios.post("/auth/register/verify", { otp: value, email });
       setStep(3);
+    } catch (error) {
+      setError(axiosErrorCatch(error));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,9 +122,9 @@ export default function OtpVerify({
         )}
 
         <Button
-          disabled={sending}
+          disabled={sending || loading || value.length < 6}
           className="bg-main hover:bg-main py-4 hover:opacity-80 w-full h-12 font-semibold">
-          Continue
+          {loading ? "Verifying..." : "Verify"}
         </Button>
       </form>
     </>

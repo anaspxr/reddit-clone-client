@@ -120,6 +120,7 @@ export default function UserInfos({ email }: { email: string }) {
             <p className="text-red-500 text-sm">{errors.password}</p>
           )}
           <Button
+            tabIndex={-1} // Prevents the button from being focused when tabbing
             type="button"
             variant="ghost"
             size="icon"

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import axios, { axiosErrorCatch } from "@/lib/axios";
 import { z } from "zod";
 
 export default function SignupOptions({
@@ -15,6 +16,7 @@ export default function SignupOptions({
 }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,15 +29,26 @@ export default function SignupOptions({
     setValue(e.target.value);
   };
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
     const { error } = z.string().email().safeParse(value);
     if (error) {
       setError("Please enter a valid email address");
       setTouched(true);
+      setLoading(false);
     } else {
-      setEmail(value);
-      setStep(2);
+      try {
+        await axios.get(`/auth/register/${value}`);
+        setEmail(value);
+        setStep(2);
+      } catch (error) {
+        setTouched(true);
+        setError(axiosErrorCatch(error));
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -90,8 +103,10 @@ export default function SignupOptions({
             Log In
           </Link>
         </p>
-        <Button className="bg-main hover:bg-main py-4 hover:opacity-80 w-full h-12  font-semibold">
-          Continue
+        <Button
+          disabled={loading}
+          className="bg-main hover:bg-main py-4 hover:opacity-80 w-full h-12  font-semibold">
+          {loading ? "Loading..." : "Continue"}
         </Button>
       </form>
     </>

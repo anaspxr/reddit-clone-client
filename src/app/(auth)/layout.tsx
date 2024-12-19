@@ -12,7 +12,7 @@ export default function Layout({
         <div className="flex gap-2 items-center flex-shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/reddit-logo.svg"
+              src="/images/reddit-logo.svg"
               alt="Reddit Logo"
               width={35}
               height={35}

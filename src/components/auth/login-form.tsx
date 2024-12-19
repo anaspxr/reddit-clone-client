@@ -14,6 +14,7 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { stateLogin } from "@/lib/store/slices/userSlice";
+import { setLoginCookie } from "@/lib/actions/auth";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
@@ -49,6 +50,9 @@ export default function LoginForm() {
         const { data } = await axios.post("/auth/login", values, {
           withCredentials: true,
         });
+
+        await setLoginCookie({ username: data.data.username });
+
         dispatch(stateLogin(data.data));
         router.push("/");
       } catch (error) {
@@ -66,7 +70,7 @@ export default function LoginForm() {
       </div>
       <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
         <p className="text-sm text-gray-600">Sign In with google</p>
-        <Image src="/google-logo.png" width={20} height={20} alt="G" />
+        <Image src="/images/google-logo.png" width={20} height={20} alt="G" />
       </div>
       <div className="flex items-center space-x-2">
         <div className="border-b w-1/2"></div>

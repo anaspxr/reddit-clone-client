@@ -69,7 +69,7 @@ export default function SignupOptions({
       </div>
       <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
         <p className="text-sm text-gray-600">Sign In with google</p>
-        <Image src="/google-logo.png" width={20} height={20} alt="G" />
+        <Image src="/images/google-logo.png" width={20} height={20} alt="G" />
       </div>
 
       <div className="flex items-center space-x-2">

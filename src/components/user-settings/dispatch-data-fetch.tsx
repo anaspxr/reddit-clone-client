@@ -2,21 +2,16 @@
 
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { getUserProfile } from "@/lib/store/async-thunks/user-thunks";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function DispatchDataFetch() {
   const dispatch = useAppDispatch();
-  const { user, loading } = useAppSelector((state) => state.user);
-  const router = useRouter();
+  const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
     if (user) {
       dispatch(getUserProfile(user.username));
     }
-  }, [dispatch, loading, router, user]);
+  }, [dispatch, user]);
   return null;
 }

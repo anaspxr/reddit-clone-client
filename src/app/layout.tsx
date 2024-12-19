@@ -3,6 +3,7 @@ import "./globals.css";
 import StoreProvider from "@/lib/store/store-provider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
+import SessionEndedToast from "@/components/ui/session-ended-toast";
 
 export const metadata: Metadata = {
   title: "Reddit",
@@ -21,6 +22,7 @@ export default function RootLayout({
           <StoreProvider>
             {children}
             <Toaster />
+            <SessionEndedToast />
           </StoreProvider>
         </ThemeProvider>
       </body>

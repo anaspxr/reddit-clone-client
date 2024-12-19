@@ -107,3 +107,8 @@ export const verifyTokenForClient = async () => {
     throw new AuthError("INVALID_TOKEN");
   }
 };
+
+export const logoutClearCookie = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete("clientAccessToken");
+};

@@ -10,7 +10,7 @@ export default function UserAvatar({
     <div className="flex gap-4 items-center">
       <Image
         className="rounded-full"
-        src={avatar || "/avatar-default.png"}
+        src={avatar || "/images/avatar-default.png"}
         alt=""
         height={70}
         width={70}

@@ -102,3 +102,51 @@ export const updateUserAbout = createAsyncThunk(
     }
   }
 );
+
+export const updateUserAvatar = createAsyncThunk(
+  "user/updateAvatar",
+  async (avatar: File, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", avatar);
+      const { data } = await axios.put("/user/avatar", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return data.data.avatar;
+    } catch (error) {
+      toast({
+        title: "Error updating avatar",
+        description: axiosErrorCatch(error),
+      });
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);
+
+export const updateUserBanner = createAsyncThunk(
+  "user/updateBanner",
+  async (banner: File, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", banner);
+      const { data } = await axios.put("/user/banner", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return data.data.banner;
+    } catch (error) {
+      toast({
+        title: "Error updating banner",
+        description: axiosErrorCatch(error),
+      });
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);

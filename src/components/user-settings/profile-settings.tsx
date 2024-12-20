@@ -1,7 +1,9 @@
 import React from "react";
-import { SettingsItem } from "./settings-item";
+import { SettingsItemContainer } from "./settings-item-container";
 import Displayname from "./displayname";
 import AboutDescription from "./about-description";
+import ChangeAvatar from "./change-avatar";
+import ChangeBanner from "./change-banner";
 
 const settings = [
   {
@@ -15,14 +17,14 @@ const settings = [
     component: AboutDescription,
   },
   {
-    label: "Avatar",
-    description: "Edit your avatar or upload an image",
-    component: Displayname,
+    label: "Avatar Image",
+    description: "Change your avatar or upload an image",
+    component: ChangeAvatar,
   },
   {
     label: "banner",
     description: "Upload a profile background image or set a color",
-    component: Displayname,
+    component: ChangeBanner,
   },
 ];
 
@@ -32,7 +34,7 @@ export default function ProfileSettings() {
       <h2 className="text-lg font-semibold border-b">Profile</h2>
       <div className="space-y-6 py-4">
         {settings.map((setting, i) => (
-          <SettingsItem
+          <SettingsItemContainer
             key={i}
             label={setting.label}
             description={setting.description}

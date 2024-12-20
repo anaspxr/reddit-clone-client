@@ -42,7 +42,9 @@ export default function ProfileHead({ children }: { children: ReactNode }) {
       ) : (
         <div className="max-w-xl">
           <div className="pb-2 border-b space-y-4">
-            {userProfile && <UserAvatar {...userProfile} />}
+            {userProfile && (
+              <UserAvatar {...userProfile} isOwnProfile={isOwnProfile} />
+            )}
             <ProfileMenu username={username} />
             {isOwnProfile && (
               <Button variant="outline" size="sm">

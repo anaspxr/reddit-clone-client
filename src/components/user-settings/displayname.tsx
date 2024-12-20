@@ -9,12 +9,9 @@ import { Button } from "../ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { displayNameSchema } from "@/lib/form-validation/user-profile";
 import { updateUserDisplayName } from "@/lib/store/async-thunks/user-thunks";
+import { SettingsChildProps } from "./settings-item-container";
 
-export default function Displayname({
-  setOpen,
-}: {
-  setOpen: (open: boolean) => void;
-}) {
+export default function Displayname({ setOpen }: SettingsChildProps) {
   const { userProfile } = useAppSelector((state) => state.user);
   const [value, setValue] = useState(userProfile?.displayName || "");
   const [blurred, setBlurred] = useState(false);

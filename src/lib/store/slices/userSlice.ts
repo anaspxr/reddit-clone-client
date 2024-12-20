@@ -5,6 +5,8 @@ import {
   hydrateUser,
   logoutUser,
   updateUserAbout,
+  updateUserAvatar,
+  updateUserBanner,
   updateUserDisplayName,
 } from "../async-thunks/user-thunks";
 
@@ -83,6 +85,19 @@ const userSlice = createSlice({
       .addCase(updateUserAbout.fulfilled, (state, action) => {
         if (state.userProfile) {
           state.userProfile.about = action.payload;
+        }
+      })
+      .addCase(updateUserAvatar.fulfilled, (state, action) => {
+        if (state.userProfile) {
+          state.userProfile.avatar = action.payload;
+        }
+        if (state.user) {
+          state.user.avatar = action.payload;
+        }
+      })
+      .addCase(updateUserBanner.fulfilled, (state, action) => {
+        if (state.userProfile) {
+          state.userProfile.banner = action.payload;
         }
       });
   },

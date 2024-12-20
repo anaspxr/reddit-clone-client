@@ -17,13 +17,14 @@ import { logoutUser } from "@/lib/store/async-thunks/user-thunks";
 export default function ProfileButton() {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         title="Open profile menu"
         className="h-10 ml-2 w-10 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full">
         <Image
-          src="/images/avatar-default.png"
+          src={user?.avatar || "/images/avatar-default.png"}
           alt="Profile"
           width={100}
           height={100}
@@ -35,7 +36,7 @@ export default function ProfileButton() {
           <Link href={`/u/${user?.username}`} className="w-full h-full">
             <div className="flex items-center gap-4 p-2">
               <Image
-                src="/images/avatar-default.png"
+                src={user?.avatar || "/images/avatar-default.png"}
                 alt="Profile"
                 width={35}
                 height={35}

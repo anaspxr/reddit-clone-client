@@ -11,7 +11,11 @@ import {
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-type SettingsItemProps = {
+export type SettingsChildProps = {
+  setOpen: (open: boolean) => void;
+};
+
+type SettingsItemContainerProps = {
   Component({
     setOpen,
   }: {
@@ -21,11 +25,11 @@ type SettingsItemProps = {
   description?: string;
 };
 
-export function SettingsItem({
+export function SettingsItemContainer({
   Component,
   label,
   description,
-}: SettingsItemProps) {
+}: SettingsItemContainerProps) {
   const [open, setOpen] = useState(false);
 
   return (

@@ -81,30 +81,34 @@ export const verifyCookie = async (
 };
 
 export const verifyTokenForClient = async () => {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-
-  if (!secret) {
-    throw new AuthError("NO_JWT_SECRET");
-  }
-
-  const token = (await cookies()).get("clientAccessToken")?.value;
-
-  if (!token) {
-    throw new AuthError("NO_TOKEN");
-  }
-
+  const res: {
+    error: string | null;
+    decoded: jose.JWTVerifyResult<jose.JWTPayload> | null;
+  } = { error: null, decoded: null };
   try {
-    const decoded = await jose.jwtVerify(token, secret);
-    return decoded;
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+    if (!secret) {
+      res.error = "NO_JWT_SECRET";
+      return res;
+    }
+
+    const token = (await cookies()).get("clientAccessToken")?.value;
+
+    if (!token) {
+      res.error = "NO_TOKEN";
+      return res;
+    }
+
+    res.decoded = await jose.jwtVerify(token, secret);
+    return res;
   } catch (error) {
     if (error instanceof jose.errors.JWTExpired) {
-      throw new AuthError("TOKEN_EXPIRED");
-    }
-
-    if (error instanceof AuthError) {
-      throw error;
-    }
-    throw new AuthError("INVALID_TOKEN");
+      res.error = "TOKEN_EXPIRED";
+    } else if (error instanceof AuthError) {
+      res.error = error.message;
+    } else res.error = "INVALID_TOKEN";
+    return res;
   }
 };
 

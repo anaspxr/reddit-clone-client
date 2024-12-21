@@ -10,7 +10,11 @@ export const hydrateUser = createAsyncThunk(
   async (handleTokenExpire: () => void, { rejectWithValue }) => {
     try {
       // first check if the client has a valid token
-      await verifyTokenForClient();
+      const { error } = await verifyTokenForClient();
+
+      if (error) {
+        throw new Error(error);
+      }
 
       const { data } = await axios.get("/user/hydrate", {
         withCredentials: true,

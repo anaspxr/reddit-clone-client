@@ -7,7 +7,7 @@ export default function UserProfileLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="sm:px-8 py-4">
+    <div className="px-2 sm:px-8 py-4 relative">
       <ProfileHead>{children}</ProfileHead>
     </div>
   );

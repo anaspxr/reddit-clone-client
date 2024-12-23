@@ -11,4 +11,7 @@ export type UserProfile = User & {
   banner?: string;
   about?: string;
   createdAt: string;
+  followers: number;
+  following: number;
+  userIsFollowing: boolean;
 };

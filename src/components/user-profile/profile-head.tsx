@@ -12,6 +12,7 @@ import { getUserProfile } from "@/lib/store/async-thunks/user-thunks";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import UserInfoCard from "./user-info-card";
 
 export default function ProfileHead({ children }: { children: ReactNode }) {
   const {
@@ -40,11 +41,12 @@ export default function ProfileHead({ children }: { children: ReactNode }) {
           description="This account may have been banned or the username is incorrect."
         />
       ) : (
-        <div className="max-w-xl">
+        <div className="xl:max-w-xl w-full">
           <div className="pb-2 border-b space-y-4">
             {userProfile && (
               <UserAvatar {...userProfile} isOwnProfile={isOwnProfile} />
             )}
+            <UserInfoCard />
             <ProfileMenu username={username} />
             {isOwnProfile && (
               <Button variant="outline" size="sm">

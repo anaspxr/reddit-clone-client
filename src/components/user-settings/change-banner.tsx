@@ -19,7 +19,7 @@ export default function ChangeBanner({ setOpen }: SettingsChildProps) {
 
   const handleSave = () => {
     if (!selectedImage) return;
-    toast({ title: "Updating Profile Picture..", duration: 2000 });
+    toast({ title: "Updating Banner Picture..", duration: 2000 });
     dispatch(updateUserBanner(selectedImage));
     setOpen(false);
   };
@@ -36,6 +36,10 @@ export default function ChangeBanner({ setOpen }: SettingsChildProps) {
     setSelectedImage(file);
   };
 
+  const imageUrl = selectedImage
+    ? URL.createObjectURL(selectedImage)
+    : userProfile?.banner;
+
   return (
     <>
       <div className=" flex flex-col items-center justify-center gap-2">
@@ -49,17 +53,15 @@ export default function ChangeBanner({ setOpen }: SettingsChildProps) {
             onChange={handleFileSelect}
           />
           <div className="w-full h-full flex items-center justify-center overflow-hidden">
-            <Image
-              src={
-                selectedImage
-                  ? URL.createObjectURL(selectedImage)
-                  : userProfile?.banner || "/images/avatar-default.png"
-              }
-              alt="Avatar"
-              className="object-cover w-full"
-              height={70}
-              width={70}
-            />
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt="Avatar"
+                className="object-cover w-full"
+                height={500}
+                width={1500}
+              />
+            )}
           </div>
           <CloudUpload
             className="absolute -right-2 -bottom-2 bg-secondary rounded-full p-1 group-hover:bg-gray-400 dark:group-hover:bg-gray-600 transition-colors duration-200"

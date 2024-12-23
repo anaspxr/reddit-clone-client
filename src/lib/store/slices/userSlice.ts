@@ -1,9 +1,11 @@
 import { User, UserProfile } from "@/lib/types/userTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  followUser,
   getUserProfile,
   hydrateUser,
   logoutUser,
+  unFollowUser,
   updateUserAbout,
   updateUserAvatar,
   updateUserBanner,
@@ -98,6 +100,18 @@ const userSlice = createSlice({
       .addCase(updateUserBanner.fulfilled, (state, action) => {
         if (state.userProfile) {
           state.userProfile.banner = action.payload;
+        }
+      })
+      .addCase(followUser.fulfilled, (state) => {
+        if (state.userProfile) {
+          state.userProfile.userIsFollowing = true;
+          state.userProfile.followers++;
+        }
+      })
+      .addCase(unFollowUser.fulfilled, (state) => {
+        if (state.userProfile) {
+          state.userProfile.userIsFollowing = false;
+          state.userProfile.followers--;
         }
       });
   },

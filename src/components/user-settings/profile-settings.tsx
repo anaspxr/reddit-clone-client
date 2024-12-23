@@ -23,7 +23,7 @@ const settings = [
   },
   {
     label: "banner",
-    description: "Upload a profile background image or set a color",
+    description: "Upload a profile background image.",
     component: ChangeBanner,
   },
 ];

@@ -59,7 +59,9 @@ export const getUserProfile = createAsyncThunk(
   "user/getProfile",
   async (username: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`public/user/${username}`);
+      const { data } = await axios.get(`public/user/${username}`, {
+        withCredentials: true,
+      });
       return data.data;
     } catch (error) {
       if (isAxiosError(error) && error.status === 404) {
@@ -136,6 +138,7 @@ export const updateUserBanner = createAsyncThunk(
   async (banner: File, { rejectWithValue }) => {
     try {
       const formData = new FormData();
+
       formData.append("image", banner);
       const { data } = await axios.put("/user/banner", formData, {
         withCredentials: true,
@@ -150,6 +153,34 @@ export const updateUserBanner = createAsyncThunk(
         title: "Error updating banner",
         description: axiosErrorCatch(error),
       });
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);
+
+export const followUser = createAsyncThunk(
+  "user/follow",
+  async (username: string, { rejectWithValue }) => {
+    try {
+      await axios.post(`/user/${username}/follow`, null, {
+        withCredentials: true,
+      });
+      return username;
+    } catch (error) {
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);
+
+export const unFollowUser = createAsyncThunk(
+  "user/unfollow",
+  async (username: string, { rejectWithValue }) => {
+    try {
+      await axios.delete(`/user/${username}/follow`, {
+        withCredentials: true,
+      });
+      return username;
+    } catch (error) {
       return rejectWithValue(axiosErrorCatch(error));
     }
   }

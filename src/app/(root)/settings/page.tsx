@@ -3,7 +3,7 @@ import ProfileSettings from "@/components/user-settings/profile-settings";
 
 export default function page() {
   return (
-    <div className="p-4 sm:p-8 w-full">
+    <div className="w-full">
       <h1 className="text-3xl font-semibold mb-8">Settings</h1>
       <DispatchDataFetch />
       <div className="space-y-8">

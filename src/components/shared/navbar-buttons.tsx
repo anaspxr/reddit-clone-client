@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Ellipsis, LogIn, MessageCircleMore, Plus } from "lucide-react";
+import { Bell, Ellipsis, LogIn, MessageCircleMore } from "lucide-react";
 import { Button } from "../ui/button";
 import ProfileButton from "./profile-button";
 import {
@@ -12,6 +12,7 @@ import {
 import DarkModeSwitch from "./dark-mode-switch";
 import Link from "next/link";
 import { useAppSelector } from "@/lib/store";
+import CreateButton from "./create-button";
 
 export default function NavbarButtons() {
   const { user } = useAppSelector((state) => state.user);
@@ -23,10 +24,7 @@ export default function NavbarButtons() {
           <Button variant="ghost" className="h-10 w-10">
             <MessageCircleMore width={25} height={25} strokeWidth={1.2} />
           </Button>
-          <Button variant="ghost" className="h-10 w-10 sm:w-fit">
-            <Plus width={25} height={25} strokeWidth={1.2} />
-            <span className="hidden md:block ">Create</span>
-          </Button>
+          <CreateButton />
           <Button variant="ghost" className="h-10 w-10 ">
             <Bell width={22} height={22} strokeWidth={1.2} />
           </Button>

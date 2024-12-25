@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import NameAndDesc from "./name-and-desc";
+import { CommunityCard1, CommunityCard2 } from "./community-card";
+import BannerAndIcon from "./banner-and-icon";
+import CommunityType from "./community-type";
 
 export type CommunityValues = {
   name: string;
   description: string;
   banner: File | null;
   icon: File | null;
-  topics: string[];
   type: "public" | "restricted" | "private";
 };
 
@@ -19,13 +21,12 @@ export default function CreateCommunity() {
     description: "",
     banner: null,
     icon: null,
-    topics: [],
     type: "public",
   });
 
   return (
     <div>
-      <div className="grid md:grid-cols-2 gap-4 mt-8">
+      <div className="grid md:grid-cols-2 gap-x-16 mt-8">
         {step === 1 && (
           <NameAndDesc
             setStep={setStep}
@@ -33,27 +34,26 @@ export default function CreateCommunity() {
             values={values}
           />
         )}
-        {step === 2 && <div>2</div>}
-        {step === 3 && <div>3</div>}
-        {![1, 2, 3].includes(step) && <div>4</div>}
-        <div></div>
-        {/* <div className="mt-8 flex justify-end gap-2">
-          {step > 1 && (
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={() => setStep(step - 1)}>
-              Back
-            </Button>
-          )}
-          <Button
-            size="lg"
-            variant="secondary"
-            disabled={buttonDisabled}
-            onClick={() => setStep(step + 1)}>
-            Next
-          </Button>
-        </div> */}
+        {step === 2 && (
+          <BannerAndIcon
+            setValues={setValues}
+            values={values}
+            setStep={setStep}
+          />
+        )}
+        {step === 3 && (
+          <CommunityType
+            values={values}
+            setValues={setValues}
+            setStep={setStep}
+          />
+        )}
+        {step === 1 ? (
+          <CommunityCard1 values={values} />
+        ) : (
+          // community card with icon and banner
+          <CommunityCard2 values={values} />
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,10 @@ export default function MaxLengthTextarea({
   onChange,
   ...props
 }: React.ComponentProps<"textarea"> & { maxLength: number }) {
-  const [length, setLength] = React.useState(0);
+  const [length, setLength] = React.useState(
+    props.value?.toString().length || 0
+  );
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxLength) {
       setLength(e.target.value.length);

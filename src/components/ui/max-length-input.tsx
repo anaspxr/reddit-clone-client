@@ -7,7 +7,9 @@ export default function MaxLengthInput({
   onChange,
   ...props
 }: React.ComponentProps<"input"> & { maxLength: number }) {
-  const [length, setLength] = React.useState(0);
+  const [length, setLength] = React.useState(
+    props.value?.toString().length || 0
+  );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= maxLength) {
       setLength(e.target.value.length);

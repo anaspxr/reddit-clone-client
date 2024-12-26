@@ -185,3 +185,17 @@ export const unFollowUser = createAsyncThunk(
     }
   }
 );
+
+export const getUserCommunities = createAsyncThunk(
+  "user/getUserCommunities",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/community/joined", {
+        withCredentials: true,
+      });
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(axiosErrorCatch(error));
+    }
+  }
+);

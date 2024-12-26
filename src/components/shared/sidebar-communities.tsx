@@ -3,20 +3,19 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronDown, Plus } from "lucide-react";
-import axios from "@/lib/axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/lib/store";
+import { getUserCommunities } from "@/lib/store/async-thunks/user-thunks";
 
 export default function SidebarCommunities() {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<{ name: string; icon: string }[]>([]);
+  const { communities } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    axios
-      .get("/community/joined", { withCredentials: true })
-      .then(({ data }) => setData(data.data))
-      .catch(() => {});
-  }, []);
+    dispatch(getUserCommunities());
+  }, [dispatch]);
 
   return (
     <div className="border-b py-4">
@@ -42,7 +41,7 @@ export default function SidebarCommunities() {
               <Plus strokeWidth={1.2} /> Create Community
             </Button>
           </Link>
-          {data.map((item) => (
+          {communities.map((item) => (
             <Link key={item.name} href={`/r/${item.name}`}>
               <Button
                 key={item.name}

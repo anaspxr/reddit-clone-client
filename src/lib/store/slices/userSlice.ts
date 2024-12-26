@@ -2,6 +2,7 @@ import { User, UserProfile } from "@/lib/types/userTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   followUser,
+  getUserCommunities,
   getUserProfile,
   hydrateUser,
   logoutUser,
@@ -18,6 +19,7 @@ interface UserState {
   loading: boolean;
   userProfileLoading: boolean;
   userProfileError: string | null;
+  communities: { name: string; icon: string }[];
 }
 
 const initialState: UserState = {
@@ -26,6 +28,7 @@ const initialState: UserState = {
   loading: false,
   userProfileLoading: false,
   userProfileError: null,
+  communities: [],
 };
 
 const userSlice = createSlice({
@@ -113,6 +116,9 @@ const userSlice = createSlice({
           state.userProfile.userIsFollowing = false;
           state.userProfile.followers--;
         }
+      })
+      .addCase(getUserCommunities.fulfilled, (state, action) => {
+        state.communities = action.payload;
       });
   },
 });

@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import communityReducer from "./slices/communitySlice";
 
 const persistConfig = {
   // for persisting user's data on browser
@@ -25,6 +26,7 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       user: persistedUserReducer,
+      community: communityReducer,
     },
 
     devTools: process.env.NODE_ENV !== "production",

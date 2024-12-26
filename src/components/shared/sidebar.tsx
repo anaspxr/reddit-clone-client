@@ -16,6 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Disclaimer from "./disclaimer";
+import SidebarCommunities from "./sidebar-communities";
 
 export const SidebarStateContext = createContext<{
   isSidebarOpen: boolean;
@@ -78,7 +79,7 @@ export default function Sidebar() {
   return (
     <div
       id="sidebar"
-      className={`h-full overflow-y-auto w-64 border-r px-4 lg:static fixed bg-white dark:bg-gray-950 ${
+      className={`scrollbar-thin h-full overflow-y-auto w-[280px] border-r px-4 lg:static fixed bg-white dark:bg-gray-950 ${
         !isSidebarOpen && "hidden lg:block"
       }`}>
       <div className="border-b flex flex-col gap-2 items-center py-4">
@@ -96,6 +97,8 @@ export default function Sidebar() {
           </Link>
         ))}
       </div>
+
+      <SidebarCommunities />
 
       <div className="border-b flex flex-col gap-2 items-center py-4">
         {policyNavItems.map((item, i) => (

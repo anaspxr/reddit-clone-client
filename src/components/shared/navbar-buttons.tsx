@@ -21,7 +21,7 @@ export default function NavbarButtons() {
     <div className="flex items-center">
       {user ? (
         <>
-          <Button variant="ghost" className="h-10 w-10">
+          <Button variant="ghost" className="h-10 w-10 hidden sm:flex">
             <MessageCircleMore width={25} height={25} strokeWidth={1.2} />
           </Button>
           <CreateButton />

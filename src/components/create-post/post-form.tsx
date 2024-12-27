@@ -8,14 +8,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import MaxLengthTextarea from "../ui/max-length-textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { UploadCloud } from "lucide-react";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { useAppSelector } from "@/lib/store";
+import MediaInput from "./media-input";
 
-type PostFormValues = {
+export type PostFormValues = {
   title: string;
   body: string;
-  media: File[];
+  media: string[];
   link: string;
 };
 
@@ -48,18 +48,29 @@ export default function PostForm() {
   const createPost = () => {
     // create post according to the type
     switch (type) {
-      case "text":
-        return { title: values.title, body: values.body, community };
-      case "media":
-        const formData = new FormData();
-        formData.append("title", values.title);
-        for (const file of values.media) {
-          formData.append("media", file);
-        }
-        if (community) formData.append("community", community);
-        return formData;
-      case "link":
-        return { title: values.title, link: values.link, community };
+      case "text": {
+        const post = { title: values.title, body: values.body, community };
+        return axios.post("/post/text", post, {
+          withCredentials: true,
+        });
+      }
+      case "media": {
+        const post = { title: values.title, media: values.media, community };
+        return axios.post("/post/media", post, {
+          withCredentials: true,
+        });
+      }
+      case "link": {
+        const post = { title: values.title, link: values.link, community };
+        return axios.post("/post/link", post, {
+          withCredentials: true,
+        });
+      }
+      default:
+        const post = { title: values.title, body: values.body, community };
+        return axios.post("/post/text", post, {
+          withCredentials: true,
+        });
     }
   };
 
@@ -67,11 +78,9 @@ export default function PostForm() {
     if (titleError) return;
     setLoading(true);
     setError("");
-    const post = createPost();
+
     try {
-      const { data } = await axios.post("/post/text", post, {
-        withCredentials: true,
-      });
+      const { data } = await createPost();
       if (community) router.push(`/r/${community}/${data.data._id}`);
       else router.push(`/u/${user?.username}/post/${data.data._id}`);
     } catch (error) {
@@ -100,7 +109,9 @@ export default function PostForm() {
       </div>
       <div>
         {type === "text" && <BodyInput values={values} setValues={setValues} />}
-        {type === "media" && <MediaInput />}
+        {type === "media" && (
+          <MediaInput media={values.media} setValues={setValues} />
+        )}
         {type === "link" && <LinkInput />}
       </div>
       <div className="flex justify-end gap-2 items-center">
@@ -108,11 +119,11 @@ export default function PostForm() {
         {loading && (
           <p className="text-blue-500 text-sm text-end  ">Uploading..</p>
         )}
-        <Button
+        {/* <Button
           disabled={loading || !!titleError || !values.title}
           className="bg-blue-700 hover:bg-blue-600 text-white">
           Save Draft
-        </Button>
+        </Button> */}
         <Button
           onClick={handlePost}
           disabled={loading || !!titleError || !values.title}
@@ -144,23 +155,4 @@ function BodyInput({
 
 function LinkInput() {
   return <Input className="h-16" placeholder="Link URL" />;
-}
-
-function MediaInput() {
-  return (
-    <div className="group relative border border-dashed h-32 rounded-3xl cursor-pointer">
-      <p className="text-center pt-12 text-muted-foreground text-sm flex items-center justify-center gap-2">
-        Drag and Drop or upload media
-        <UploadCloud
-          className="bg-secondary rounded-full p-1 group-hover:bg-gray-300 dark:group-hover:bg-gray-700"
-          size={30}
-          strokeWidth={1.2}
-        />
-      </p>
-      <Input
-        className="absolute top-0 opacity-0 cursor-pointer w-full h-full"
-        type="file"
-      />
-    </div>
-  );
 }

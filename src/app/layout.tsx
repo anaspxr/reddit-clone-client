@@ -4,6 +4,7 @@ import StoreProvider from "@/lib/store/store-provider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import SessionEndedToast from "@/components/ui/session-ended-toast";
+import ReactQueryProvider from "@/components/react-query-provider";
 
 export const metadata: Metadata = {
   title: "Reddit",
@@ -18,13 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="h-screen">
-        <ThemeProvider attribute="class">
-          <StoreProvider>
-            {children}
-            <Toaster />
-            <SessionEndedToast />
-          </StoreProvider>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider attribute="class">
+            <StoreProvider>
+              {children}
+              <Toaster />
+              <SessionEndedToast />
+            </StoreProvider>
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

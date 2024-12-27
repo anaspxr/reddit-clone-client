@@ -62,7 +62,7 @@ export default function Community() {
                   r/{community.name}
                 </h2>
                 <div className="flex items-center gap-2">
-                  <Link href={`/r/create/post?community=${community.name}`}>
+                  <Link href={`/create/post?community=${community.name}`}>
                     <Button variant="outline" size="lg" className="px-4">
                       <Plus strokeWidth={1.2} /> Create Post
                     </Button>

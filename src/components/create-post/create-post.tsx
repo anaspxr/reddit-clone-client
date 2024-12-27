@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import SelectCommunity from "./select-community";
 import SelectType from "./select-type";

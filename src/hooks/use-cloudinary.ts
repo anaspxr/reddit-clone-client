@@ -1,3 +1,5 @@
+"use client";
+
 import { axiosErrorCatch } from "@/lib/axios";
 import axios from "axios";
 import { useState } from "react";

@@ -23,7 +23,7 @@ export default function UserInfoCard() {
   const { toast } = useToast();
 
   return (
-    <Card className="xl:absolute right-4 top-0 w-full max-w-[400px] bg-transparent xl:dark:bg-black xl:bg-gray-200 overflow-hidden">
+    <Card className="xl:fixed right-8  top-16 w-full max-w-[400px] bg-transparent xl:dark:bg-black xl:bg-gray-200 overflow-hidden">
       {userProfile && (
         <>
           <CardHeader className="px-0 py-0">
@@ -106,7 +106,7 @@ export default function UserInfoCard() {
             )}
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-2 pt-4">
+            <div className="grid grid-cols-2 gap-2 pt-4">
               <div>
                 <p className="text-foreground">{userProfile.followers}</p>
                 <p className="text-xs ">Followers</p>
@@ -115,8 +115,7 @@ export default function UserInfoCard() {
                 <p className="text-foreground">{userProfile.following}</p>
                 <p className="text-xs ">Following</p>
               </div>
-            </div>
-            <div className="grid grid-cols-3 gap-2 pt-4">
+
               <div>
                 <p className="text-foreground">0</p>
                 <p className="text-xs ">Posts</p>

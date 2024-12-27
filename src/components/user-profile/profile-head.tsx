@@ -13,6 +13,7 @@ import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import UserInfoCard from "./user-info-card";
+import Link from "next/link";
 
 export default function ProfileHead({ children }: { children: ReactNode }) {
   const {
@@ -49,9 +50,11 @@ export default function ProfileHead({ children }: { children: ReactNode }) {
             <UserInfoCard />
             <ProfileMenu username={username} />
             {isOwnProfile && (
-              <Button variant="outline" size="sm">
-                <Plus strokeWidth={1} /> Create Post
-              </Button>
+              <Link href="/create/post" className="block my-2">
+                <Button variant="outline" size="sm">
+                  <Plus strokeWidth={1} /> Create Post
+                </Button>
+              </Link>
             )}
           </div>
           <div>{children}</div>

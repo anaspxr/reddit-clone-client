@@ -15,7 +15,8 @@ import MediaInput from "./media-input";
 export type PostFormValues = {
   title: string;
   body: string;
-  media: string[];
+  images: string[];
+  video: string;
   link: string;
 };
 
@@ -23,7 +24,8 @@ export default function PostForm() {
   const [values, setValues] = useState<PostFormValues>({
     title: "",
     body: "",
-    media: [],
+    images: [],
+    video: "",
     link: "",
   });
   const [titleError, setTitleError] = useState("");
@@ -55,7 +57,12 @@ export default function PostForm() {
         });
       }
       case "media": {
-        const post = { title: values.title, media: values.media, community };
+        const post = {
+          title: values.title,
+          images: values.images,
+          video: values.video,
+          community,
+        };
         return axios.post("/post/media", post, {
           withCredentials: true,
         });
@@ -80,9 +87,9 @@ export default function PostForm() {
     setError("");
 
     try {
-      const { data } = await createPost();
-      if (community) router.push(`/r/${community}/${data.data._id}`);
-      else router.push(`/u/${user?.username}/post/${data.data._id}`);
+      const {} = await createPost();
+      if (community) router.push(`/r/${community}`);
+      else router.push(`/u/${user?.username}/posts`);
     } catch (error) {
       setError(axiosErrorCatch(error));
     } finally {
@@ -110,7 +117,10 @@ export default function PostForm() {
       <div>
         {type === "text" && <BodyInput values={values} setValues={setValues} />}
         {type === "media" && (
-          <MediaInput media={values.media} setValues={setValues} />
+          <MediaInput
+            media={values.video ? [values.video] : values.images}
+            setValues={setValues}
+          />
         )}
         {type === "link" && <LinkInput />}
       </div>

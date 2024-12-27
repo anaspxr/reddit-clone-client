@@ -33,13 +33,13 @@ export default function MediaInput({
         }
         if (images.length) {
           const publicUrls = await uploadMedia(images, "image");
-          console.log(publicUrls);
-          if (publicUrls) setValues((prev) => ({ ...prev, media: publicUrls }));
+          if (publicUrls)
+            setValues((prev) => ({ ...prev, images: publicUrls }));
         }
         if (videos.length) {
           const publicUrls = await uploadMedia(videos, "video");
-          console.log(publicUrls);
-          if (publicUrls) setValues((prev) => ({ ...prev, media: publicUrls }));
+          if (publicUrls)
+            setValues((prev) => ({ ...prev, video: publicUrls[0] }));
         }
       },
     });

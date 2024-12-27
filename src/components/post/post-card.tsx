@@ -27,7 +27,7 @@ export default function PostCard({ post }: { post: Post }) {
         </div>
         <p className="text-xs text-muted-foreground">
           {post.community
-            ? `r/${post.community}`
+            ? `r/${post.community.name}`
             : `u/${post.creator.username}`}
         </p>
       </div>

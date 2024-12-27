@@ -97,6 +97,12 @@ export default function PostForm() {
     }
   };
 
+  const buttonDisabled =
+    loading ||
+    !!titleError ||
+    !values.title ||
+    (type === "media" && !values.images.length && !values.video);
+
   return (
     <div className="space-y-8 max-w-xl">
       <div className="space-y-2 ">
@@ -136,7 +142,7 @@ export default function PostForm() {
         </Button> */}
         <Button
           onClick={handlePost}
-          disabled={loading || !!titleError || !values.title}
+          disabled={buttonDisabled}
           className="bg-blue-700 hover:bg-blue-600 text-white">
           Post
         </Button>

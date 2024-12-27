@@ -1,23 +1,25 @@
 "use client";
 
 import axios from "@/lib/axios";
-import { useAppSelector } from "@/lib/store";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import React from "react";
 import PostCard from "../post/post-card";
 import { Post } from "@/lib/types/postTypes";
 
-export default function UserPosts() {
-  const { user } = useAppSelector((state) => state.user);
+export default function CommunityPosts() {
+  const { communityName }: { communityName: string } = useParams();
   const { data } = useQuery({
-    queryKey: ["posts", { username: user?.username }],
+    queryKey: ["community_posts", { communityName: communityName }],
     queryFn: async () => {
-      const { data } = await axios.get(`/public/user/${user?.username}/posts`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `/public/community/${communityName}/posts`,
+        {
+          withCredentials: true,
+        }
+      );
       return data.data;
     },
-    retry: 1,
-    refetchInterval: 2 * 60 * 1000, // 2 minute
   });
 
   return (

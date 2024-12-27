@@ -10,6 +10,7 @@ import ErrorPage from "../ui/error-page";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import CommunityPosts from "./community-posts";
 
 export default function Community() {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export default function Community() {
   }, [communityName, dispatch]);
 
   return (
-    <div className="">
+    <div>
       {loading ? (
         <div className="h-full flex items-center justify-center">
           <Spinner />
@@ -82,6 +83,7 @@ export default function Community() {
                 </div>
               </div>
             </div>
+            <CommunityPosts />
           </div>
         )
       )}

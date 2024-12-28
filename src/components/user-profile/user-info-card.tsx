@@ -13,7 +13,6 @@ import { Edit, Forward, MessageCircleMore, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import dayjs from "dayjs";
 import Image from "next/image";
-import clsx from "clsx";
 import { followUser, unFollowUser } from "@/lib/store/async-thunks/user-thunks";
 import Link from "next/link";
 
@@ -37,66 +36,60 @@ export default function UserInfoCard() {
                   className="w-full h-full object-cover absolute "
                 />
               )}
-              <div
-                className={clsx(
-                  "z-10 p-4 gap-2 h-full w-full flex flex-col justify-center",
-                  {
-                    "bg-black text-white bg-opacity-50": !!userProfile.banner,
-                  }
-                )}>
-                <CardTitle className="text-lg xl:block hidden">
-                  {userProfile.displayName}
-                </CardTitle>
-                <div className="flex gap-2 items-center justify-end">
-                  {userProfile.username !== user?.username ? (
-                    <>
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          if (userProfile.userIsFollowing) {
-                            dispatch(unFollowUser(userProfile.username));
-                          } else {
-                            dispatch(followUser(userProfile.username));
-                          }
-                        }}
-                        className="bg-blue-700 text-white hover:bg-blue-700 hover:bg-opacity-80">
-                        {userProfile.userIsFollowing ? (
-                          "Following"
-                        ) : (
-                          <>
-                            <PlusCircle strokeWidth={1.2} size={18} />
-                            Follow
-                          </>
-                        )}
-                      </Button>
-                      <Button variant="secondary" size="sm">
-                        <MessageCircleMore strokeWidth={1.2} size={18} />
-                        Chat
-                      </Button>
-                    </>
-                  ) : (
-                    <Link href={"/settings"}>
-                      <Button variant="secondary" size="sm">
-                        <Edit strokeWidth={1.2} size={18} />
-                        Edit profile
-                      </Button>
-                    </Link>
-                  )}
-                  <Button
-                    onClick={() => {
-                      const link = `${window.location.origin}/u/${userProfile.username}`;
-                      window.navigator.clipboard.writeText(link);
-                      toast({
-                        description: "Profile Link copied to clipboard!",
-                      });
-                    }}
-                    variant="secondary"
-                    size="sm"
-                    className="btn btn-secondary">
-                    <Forward strokeWidth={1.2} size={18} />
-                    Share
-                  </Button>
-                </div>
+            </div>
+            <div className="flex flex-col gap-2 items-start justify-between px-4 py-2">
+              <CardTitle className="text-lg xl:block hidden">
+                {userProfile.displayName}
+              </CardTitle>
+              <div className="flex gap-2 items-center justify-end">
+                {userProfile.username !== user?.username ? (
+                  <>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        if (userProfile.userIsFollowing) {
+                          dispatch(unFollowUser(userProfile.username));
+                        } else {
+                          dispatch(followUser(userProfile.username));
+                        }
+                      }}
+                      className="bg-blue-700 text-white hover:bg-blue-700 hover:bg-opacity-80">
+                      {userProfile.userIsFollowing ? (
+                        "Following"
+                      ) : (
+                        <>
+                          <PlusCircle strokeWidth={1.2} size={18} />
+                          Follow
+                        </>
+                      )}
+                    </Button>
+                    <Button variant="secondary" size="sm">
+                      <MessageCircleMore strokeWidth={1.2} size={18} />
+                      Chat
+                    </Button>
+                  </>
+                ) : (
+                  <Link href={"/settings"}>
+                    <Button variant="secondary" size="sm">
+                      <Edit strokeWidth={1.2} size={18} />
+                      Edit profile
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  onClick={() => {
+                    const link = `${window.location.origin}/u/${userProfile.username}`;
+                    window.navigator.clipboard.writeText(link);
+                    toast({
+                      description: "Profile Link copied to clipboard!",
+                    });
+                  }}
+                  variant="secondary"
+                  size="sm"
+                  className="btn btn-secondary">
+                  <Forward strokeWidth={1.2} size={18} />
+                  Share
+                </Button>
               </div>
             </div>
             {userProfile.about && (

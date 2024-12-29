@@ -50,7 +50,7 @@ export default function SidebarCommunities() {
                 className="w-full justify-start h-10">
                 <div className="flex items-center overflow-hidden rounded-full w-8 h-8 ">
                   <Image
-                    src={item.icon}
+                    src={item.icon || "/images/community-icon.png"}
                     alt="icon"
                     width={50}
                     height={50}

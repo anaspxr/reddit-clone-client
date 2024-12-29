@@ -7,5 +7,5 @@ export interface ICommunity {
   creator: string;
   icon?: string;
   banner?: string;
-  role?: "admin" | "moderator" | "member" | "follower";
+  role?: "admin" | "moderator" | "member";
 }

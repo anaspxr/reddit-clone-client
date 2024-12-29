@@ -1,39 +1,44 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { getCommunity } from "@/lib/store/async-thunks/community-thunks";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import Spinner from "../ui/spinner";
 import ErrorPage from "../ui/error-page";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import CommunityPosts from "./community-posts";
+import JoinButton from "./join-button";
+import { useQuery } from "@tanstack/react-query";
+import axios, { axiosErrorCatch } from "@/lib/axios";
+import { ICommunity } from "@/lib/types/communityTypes";
 
 export default function Community() {
-  const dispatch = useAppDispatch();
   const { communityName }: { communityName: string } = useParams();
-  const { community, error, loading } = useAppSelector(
-    (state) => state.community
-  );
-
-  useEffect(() => {
-    dispatch(getCommunity(communityName));
-  }, [communityName, dispatch]);
+  const {
+    refetch,
+    data: community,
+    error,
+    isLoading,
+  } = useQuery<ICommunity>({
+    queryKey: [communityName],
+    queryFn: async () => {
+      const { data } = await axios(`/public/community/${communityName}`, {
+        withCredentials: true,
+      });
+      return data.data;
+    },
+  });
 
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <div className="h-full flex items-center justify-center">
           <Spinner />
         </div>
       ) : error ? (
-        <ErrorPage
-          title="Sorry, No community found"
-          description="This community may have been banned or the name is incorrect."
-        />
+        <ErrorPage title={axiosErrorCatch(error)} />
       ) : (
         community && (
           <div>
@@ -68,18 +73,7 @@ export default function Community() {
                       <Plus strokeWidth={1.2} /> Create Post
                     </Button>
                   </Link>
-                  <Button
-                    variant={community.role ? "outline" : "default"}
-                    size="lg"
-                    className="px-4">
-                    {!community.role
-                      ? "Join"
-                      : community.role === "admin"
-                      ? "Admin"
-                      : community.role === "moderator"
-                      ? "Moderator"
-                      : "Joined"}
-                  </Button>
+                  <JoinButton refetch={refetch} community={community} />
                 </div>
               </div>
             </div>

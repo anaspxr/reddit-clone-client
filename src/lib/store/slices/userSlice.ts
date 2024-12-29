@@ -19,7 +19,7 @@ interface UserState {
   loading: boolean;
   userProfileLoading: boolean;
   userProfileError: string | null;
-  communities: { name: string; icon: string }[];
+  communities: { name: string; icon?: string }[];
 }
 
 const initialState: UserState = {

@@ -17,4 +17,7 @@ export type Post = {
   };
   images?: string[];
   video?: string;
+  upvotes: number;
+  downvotes: number;
+  userReaction?: "downvote" | "upvote";
 };

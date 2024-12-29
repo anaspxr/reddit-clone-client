@@ -4,11 +4,12 @@ import { Post } from "@/lib/types/postTypes";
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
-import { ArrowDown, ArrowUp, MessageCircle, Share2 } from "lucide-react";
+import { MessageCircle, Share2 } from "lucide-react";
 import { CldImage, CldVideoPlayer } from "next-cloudinary";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
+import ReactButton from "./react-button";
 
 export default function PostCard({ post }: { post: Post }) {
   return (
@@ -65,21 +66,11 @@ export default function PostCard({ post }: { post: Post }) {
       ) : null}
 
       <div className="flex gap-2 items-center">
-        <div className="bg-secondary rounded-3xl flex items-center gap-1">
-          <Button
-            variant="secondary"
-            size="sm"
-            className="hover:bg-gray-500 px-0 h-8 w-8">
-            <ArrowUp size={20} />
-          </Button>
-          <p>0</p>
-          <Button
-            variant="secondary"
-            size="sm"
-            className="hover:bg-gray-500 px-0 h-8 w-8">
-            <ArrowDown size={20} />
-          </Button>
-        </div>
+        <ReactButton
+          userReaction={post.userReaction}
+          votes={post.upvotes - post.downvotes}
+          postId={post._id}
+        />
         <Button variant="secondary" size="sm">
           <MessageCircle size={20} strokeWidth={1.2} /> 0
         </Button>

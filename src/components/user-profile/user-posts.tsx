@@ -16,7 +16,6 @@ export default function UserPosts() {
       });
       return data.data;
     },
-    retry: 1,
   });
 
   return (

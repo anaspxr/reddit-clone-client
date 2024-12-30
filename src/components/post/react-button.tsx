@@ -50,7 +50,9 @@ export default function ReactButton({
     }
   };
   return (
-    <div className="bg-secondary rounded-3xl flex items-center gap-1">
+    <div
+      className="bg-secondary rounded-3xl flex items-center gap-1"
+      onClick={(e) => e.preventDefault()}>
       <Button
         disabled={loading}
         onClick={() => handleReact("upvote")}

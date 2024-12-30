@@ -79,7 +79,7 @@ export default function Sidebar() {
   return (
     <div
       id="sidebar"
-      className={`scrollbar-thin h-full overflow-y-auto w-[280px] border-r px-4 lg:static fixed bg-white dark:bg-gray-950 ${
+      className={`scrollbar-thin z-10 h-full overflow-y-auto w-[280px] border-r px-4 lg:static fixed bg-white dark:bg-gray-950 ${
         !isSidebarOpen && "hidden lg:block"
       }`}>
       <div className="border-b flex flex-col gap-2 items-center py-4">

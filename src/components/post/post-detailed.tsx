@@ -1,32 +1,47 @@
 "use client";
 
 import { Post } from "@/lib/types/postTypes";
+import { CldImage, CldVideoPlayer } from "next-cloudinary";
 import Image from "next/image";
 import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import ReactButton from "./react-button";
 import { Button } from "../ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
-import { CldImage, CldVideoPlayer } from "next-cloudinary";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "next-cloudinary/dist/cld-video-player.css";
-import ReactButton from "./react-button";
-import Link from "next/link";
-import { toast } from "@/hooks/use-toast";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import axios, { axiosErrorCatch } from "@/lib/axios";
+import Spinner from "../ui/spinner";
+import ErrorPage from "../ui/error-page";
+import PostComments from "./post-comments";
 
-export default function PostCard({
-  post,
-  detailed = false,
-}: {
-  post: Post;
-  detailed?: boolean;
-}) {
-  return (
-    <div className="border-b pb-2">
-      <Link
-        href={`/post/${post._id}`}
-        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 block rounded-md space-y-2">
-        <div className="flex gap-2 items-center">
-          <div className="w-6 h-6  rounded-full overflow-hidden">
+export default function PostDetailed() {
+  const { id } = useParams();
+  const {
+    data: post,
+    isLoading,
+    error,
+  } = useQuery<Post>({
+    queryKey: ["post", id],
+    queryFn: async () => {
+      const { data } = await axios.get(`public/post/${id}`, {
+        withCredentials: true,
+      });
+      return data.data;
+    },
+  });
+
+  return isLoading ? (
+    <div className="h-full w-full flex items-center justify-center">
+      <Spinner />
+    </div>
+  ) : error ? (
+    <ErrorPage title={axiosErrorCatch(error)} />
+  ) : (
+    post && (
+      <div className="space-y-2 pb-2">
+        <div className="flex gap-2   items-center">
+          <div className="w-10 h-10  rounded-full overflow-hidden">
             {(post.community?.icon || post.creator.avatar) && (
               <Image
                 src={post.community?.icon || post.creator.avatar}
@@ -37,20 +52,18 @@ export default function PostCard({
               />
             )}
           </div>
-          <p className="text-xs text-muted-foreground">
-            {post.community?.name
-              ? `r/${post.community.name}`
-              : `u/${post.creator.username}`}
-          </p>
+          <div>
+            {post.community?.name && <p>r/{post.community?.name}</p>}
+            <p className="text-xs text-muted-foreground">
+              u/{post.creator.username}
+            </p>
+          </div>
         </div>
-        <h1 className="font-semibold">{post.title}</h1>
+        <h1 className="font-semibold text-2xl">{post.title}</h1>
         {post.body && (
-          <p
-            className={`text-sm text-muted-foreground ${
-              !detailed ? "max-h-40" : ""
-            } overflow-hidden`}>
+          <pre className="text-sm text-muted-foreground max-h-40 overflow-hidden font-sans">
             {post.body}
-          </p>
+          </pre>
         )}
 
         {post.video && (
@@ -88,21 +101,12 @@ export default function PostCard({
           <Button variant="secondary" size="sm">
             <MessageCircle size={20} strokeWidth={1.2} /> 0
           </Button>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              const link = `${window.location.origin}/post/${post.title}`;
-              window.navigator.clipboard.writeText(link);
-              toast({
-                description: "Post Link copied to clipboard!",
-              });
-            }}
-            variant="secondary"
-            size="sm">
+          <Button variant="secondary" size="sm">
             <Share2 size={20} strokeWidth={1.2} /> Share
           </Button>
         </div>
-      </Link>
-    </div>
+        <PostComments postId={post._id} />
+      </div>
+    )
   );
 }

@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import dayjs from "dayjs";
 import { FileError } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
 
@@ -41,5 +42,22 @@ export const getFileErrorMessage = (error: FileError) => {
       return "Too many files. Only 4 images are supported";
     default:
       return "Unknown error";
+  }
+};
+
+export const getPostedTimeDiff = (createdAt: string) => {
+  const ms = Math.abs(dayjs(createdAt).diff());
+  if (ms < 60000) {
+    return "just now";
+  } else if (ms < 3600000) {
+    return `${Math.floor(ms / 60000)}m ago`;
+  } else if (ms < 86400000) {
+    return `${Math.floor(ms / 3600000)}h ago`;
+  } else if (ms < 2419200000) {
+    return `${Math.floor(ms / 86400000)}d ago`;
+  } else if (ms < 29030400000) {
+    return `${Math.floor(ms / 2419200000)}m ago`;
+  } else {
+    return `${Math.floor(ms / 2903040000)}y ago`;
   }
 };

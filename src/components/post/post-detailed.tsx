@@ -14,6 +14,7 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 import Spinner from "../ui/spinner";
 import ErrorPage from "../ui/error-page";
 import PostComments from "./post-comments";
+import { toast } from "@/hooks/use-toast";
 
 export default function PostDetailed() {
   const { id } = useParams();
@@ -99,13 +100,23 @@ export default function PostDetailed() {
             postId={post._id}
           />
           <Button variant="secondary" size="sm">
-            <MessageCircle size={20} strokeWidth={1.2} /> 0
+            <MessageCircle size={20} strokeWidth={1.2} />
+            {post.commentCount || 0}
           </Button>
-          <Button variant="secondary" size="sm">
+          <Button
+            onClick={() => {
+              const link = `${window.location.origin}/post/${post._id}`;
+              window.navigator.clipboard.writeText(link);
+              toast({
+                description: "Post Link copied to clipboard!",
+              });
+            }}
+            variant="secondary"
+            size="sm">
             <Share2 size={20} strokeWidth={1.2} /> Share
           </Button>
         </div>
-        <PostComments postId={post._id} />
+        <PostComments op={post.creator.username} postId={post._id} />
       </div>
     )
   );

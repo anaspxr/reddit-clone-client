@@ -5,12 +5,15 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 import { toast } from "@/hooks/use-toast";
 import { useAppSelector } from "@/lib/store";
 import { useRouter } from "next/navigation";
+import clsx from "clsx";
 
 export default function ReactButton({
+  type = "post",
   postId,
   votes,
   userReaction,
 }: {
+  type?: "post" | "comment";
   postId: string;
   votes: number;
   userReaction?: "downvote" | "upvote";
@@ -30,7 +33,7 @@ export default function ReactButton({
     try {
       setLoading(true);
       const { data } = await axios.put(
-        "/post/react",
+        `/${type}/react`,
         {
           postId,
           reaction,
@@ -51,13 +54,15 @@ export default function ReactButton({
   };
   return (
     <div
-      className="bg-secondary rounded-3xl flex items-center gap-1"
+      className={clsx("rounded-3xl flex items-center", {
+        "bg-secondary": type === "post",
+      })}
       onClick={(e) => e.preventDefault()}>
       <Button
         disabled={loading}
         onClick={() => handleReact("upvote")}
         title="upvote"
-        variant="secondary"
+        variant={type === "post" ? "secondary" : "ghost"}
         size="sm"
         className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8">
         <ArrowBigUp
@@ -66,12 +71,12 @@ export default function ReactButton({
           size={20}
         />
       </Button>
-      <p>{count}</p>
+      <p className="text-sm">{count}</p>
       <Button
         disabled={loading}
         onClick={() => handleReact("downvote")}
         title="downvote"
-        variant="secondary"
+        variant={type === "post" ? "secondary" : "ghost"}
         size="sm"
         className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8">
         <ArrowBigDown

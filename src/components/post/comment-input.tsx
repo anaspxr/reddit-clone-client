@@ -5,8 +5,10 @@ import MaxLengthTextarea from "../ui/max-length-textarea";
 import { Button } from "../ui/button";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CommentInput({ postId }: { postId: string }) {
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,7 +18,7 @@ export default function CommentInput({ postId }: { postId: string }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(
+      const { data } = await axios.post(
         "/comment",
         {
           body: comment,
@@ -27,9 +29,16 @@ export default function CommentInput({ postId }: { postId: string }) {
       setComment("");
       setCommentAdded(true);
       setIsOpen(false);
+      queryClient.setQueryData(
+        ["comments", { id: postId }],
+        (old: Comment[]) => {
+          const newData = [data.data, ...old];
+          return newData;
+        }
+      );
     } catch (error) {
       toast({
-        title: "Coudln't post comment",
+        title: "Couldn't post comment",
         description: axiosErrorCatch(error),
         variant: "destructive",
       });
@@ -70,7 +79,7 @@ export default function CommentInput({ postId }: { postId: string }) {
         </div>
       )}
       {commentAdded && !isOpen && (
-        <div className="text-green-500  bg-green-500 bg-opacity-30 border border-green-500 text-muted-foreground mt-2 w-fit text-xs px-2 py-1 rounded-3xl">
+        <div className="   text-green-500  bg-green-500 bg-opacity-30 border border-green-500 text-muted-foreground mt-2 w-fit text-xs px-2 py-1 rounded-3xl">
           Comment added
         </div>
       )}

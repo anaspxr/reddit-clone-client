@@ -12,6 +12,7 @@ import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
+import { getPostedTimeDiff } from "@/lib/utils";
 
 export default function PostCard({
   post,
@@ -37,11 +38,17 @@ export default function PostCard({
               />
             )}
           </div>
-          <p className="text-xs text-muted-foreground">
-            {post.community?.name
-              ? `r/${post.community.name}`
-              : `u/${post.creator.username}`}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-xs text-muted-foreground">
+              {post.community?.name
+                ? `r/${post.community.name}`
+                : `u/${post.creator.username}`}
+            </p>
+            •
+            <p className="text text-xs text-muted-foreground">
+              {getPostedTimeDiff(post.createdAt)}
+            </p>
+          </div>
         </div>
         <h1 className="font-semibold">{post.title}</h1>
         {post.body && (
@@ -86,12 +93,13 @@ export default function PostCard({
             postId={post._id}
           />
           <Button variant="secondary" size="sm">
-            <MessageCircle size={20} strokeWidth={1.2} /> 0
+            <MessageCircle size={20} strokeWidth={1.2} />
+            {post.commentCount || 0}
           </Button>
           <Button
             onClick={(e) => {
               e.preventDefault();
-              const link = `${window.location.origin}/post/${post.title}`;
+              const link = `${window.location.origin}/post/${post._id}`;
               window.navigator.clipboard.writeText(link);
               toast({
                 description: "Post Link copied to clipboard!",

@@ -1,7 +1,6 @@
 "use client";
 
 import { Comment } from "@/lib/types/postTypes";
-import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { MessageCircle } from "lucide-react";
@@ -9,6 +8,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
 import { getPostedTimeDiff } from "@/lib/utils";
+import Avatar from "../ui/avatar";
 
 export default function CommentCard({
   comment,
@@ -20,15 +20,7 @@ export default function CommentCard({
   return (
     <div className="py-2 space-y-1">
       <div className="flex gap-2 items-center">
-        <div className="w-6 h-6  rounded-full overflow-hidden">
-          <Image
-            src={comment.creator.avatar || "/images/avatar-default.png"}
-            alt=""
-            width={20}
-            height={20}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Avatar src={comment.creator.avatar} className="w-6 h-6" />
         <div className="flex items-center gap-2">
           <p className="text-sm font-semibold">{comment.creator.username} </p>
           {comment.creator.username === op && (

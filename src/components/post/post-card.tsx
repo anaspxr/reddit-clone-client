@@ -1,7 +1,6 @@
 "use client";
 
 import { Post } from "@/lib/types/postTypes";
-import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
@@ -13,6 +12,7 @@ import ReactButton from "./react-button";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
 import { getPostedTimeDiff } from "@/lib/utils";
+import Avatar from "../ui/avatar";
 
 export default function PostCard({
   post,
@@ -27,17 +27,13 @@ export default function PostCard({
         href={`/post/${post._id}`}
         className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 block rounded-md space-y-2">
         <div className="flex gap-2 items-center">
-          <div className="w-6 h-6  rounded-full overflow-hidden">
-            {(post.community?.icon || post.creator.avatar) && (
-              <Image
-                src={post.community?.icon || post.creator.avatar}
-                alt=""
-                width={20}
-                height={20}
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
+          <Avatar
+            className="w-6 h-6"
+            src={
+              post.community?.name ? post.community.icon : post.creator?.avatar
+            }
+            type={post.community?.name ? "community" : "user"}
+          />
           <div className="flex items-center gap-2">
             <p className="text-xs text-muted-foreground">
               {post.community?.name

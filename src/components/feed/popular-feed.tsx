@@ -10,7 +10,9 @@ export default function PopularFeed() {
   const { data } = useQuery<Post[]>({
     queryKey: ["popular_feed"],
     queryFn: async () => {
-      const { data } = await axios.get("/public/feed?type=popular");
+      const { data } = await axios.get("/public/feed?type=popular", {
+        withCredentials: true,
+      });
       return data.data;
     },
   });

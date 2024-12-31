@@ -16,7 +16,7 @@ export default function PostComments({
   const { data: comments, isLoading } = useQuery<Comment[]>({
     queryKey: ["comments", { id: postId }],
     queryFn: async () => {
-      const { data } = await axios.get(`/comment/${postId}`, {
+      const { data } = await axios.get(`/public/comment/${postId}`, {
         withCredentials: true,
       });
       return data.data;

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ChartNoAxesColumnIncreasing,
   ChartNoAxesCombined,
   GlobeLock,
   Handshake,
@@ -41,7 +40,7 @@ const mainNavItems = [
   { label: "Home", to: "/", icon: Home },
   { label: "Popular", to: "/popular", icon: ChartNoAxesCombined },
   { label: "Explore", to: "/explore", icon: Telescope },
-  { label: "All", to: "/all", icon: ChartNoAxesColumnIncreasing },
+  // { label: "All", to: "/all", icon: ChartNoAxesColumnIncreasing },
 ];
 
 const policyNavItems = [

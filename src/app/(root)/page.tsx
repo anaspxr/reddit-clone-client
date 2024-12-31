@@ -6,7 +6,9 @@ export default function Home() {
     <div className="space-y-8">
       <UserFeed />
       <div>
-        <h1 className="text-2xl">Popular</h1>
+        <h1 className="text-2xl sm:text-3xl font-semibold mb-4">
+          Popular Posts
+        </h1>
         <PopularFeed />
       </div>
     </div>

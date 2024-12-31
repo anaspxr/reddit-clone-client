@@ -13,6 +13,7 @@ import JoinButton from "./join-button";
 import { useQuery } from "@tanstack/react-query";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { ICommunity } from "@/lib/types/communityTypes";
+import Avatar from "../ui/avatar";
 
 export default function Community() {
   const { communityName }: { communityName: string } = useParams();
@@ -54,15 +55,11 @@ export default function Community() {
               )}
             </div>
             <div className="flex items-center gap-4 mt-4">
-              <div className="rounded-full h-20 w-20">
-                <Image
-                  src={community.icon || "/images/community-icon.png"}
-                  width={80}
-                  height={80}
-                  alt="Community Icon"
-                  className="rounded-full"
-                />
-              </div>
+              <Avatar
+                src={community.icon}
+                className="h-20 w-20"
+                type="community"
+              />
               <div className="flex justify-between gap-4 flex-wrap w-full">
                 <h2 className="text-xl sm:text-4xl font-semibold">
                   r/{community.name}

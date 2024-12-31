@@ -7,7 +7,7 @@ export default function Avatar({
   className = "",
 }: {
   type?: "user" | "community";
-  src: string;
+  src?: string;
   className?: string;
 }) {
   const fallback =
@@ -15,7 +15,7 @@ export default function Avatar({
       ? "/images/avatar-default.png"
       : "/images/community-icon.png";
   return (
-    <div className={"rounded-full overflow-hidden " + className}>
+    <div className={"rounded-full overflow-hidden flex-shrink-0 " + className}>
       <Image
         src={src || fallback}
         alt=""

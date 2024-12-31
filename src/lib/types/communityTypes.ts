@@ -1,4 +1,5 @@
 export interface ICommunity {
+  _id: string;
   name: string;
   displayName: string;
   description: string;
@@ -8,4 +9,5 @@ export interface ICommunity {
   icon?: string;
   banner?: string;
   role?: "admin" | "moderator" | "member";
+  memberCount: number;
 }

@@ -13,8 +13,8 @@ const publicNavItems = [
 ];
 
 const privateNavItems = [
-  { label: "Saved", to: "saved" },
-  { label: "Hidden", to: "hidden" },
+  // { label: "Saved", to: "saved" },
+  // { label: "Hidden", to: "hidden" },
   { label: "Upvoted", to: "upvoted" },
   { label: "Downvoted", to: "downvoted" },
 ];

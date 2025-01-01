@@ -15,7 +15,7 @@ export default function CommentCard({
   queryKey,
   op,
 }: {
-  queryKey: string[];
+  queryKey: (string | { [key: string]: string })[];
   comment: Comment;
   op?: string;
 }) {

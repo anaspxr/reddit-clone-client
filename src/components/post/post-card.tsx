@@ -22,7 +22,7 @@ export default function PostCard({
   detailed = false,
 }: {
   post: Post;
-  queryKey: string[];
+  queryKey: (string | { [key: string]: string })[];
   detailed?: boolean;
 }) {
   const { user } = useAppSelector((state) => state.user);

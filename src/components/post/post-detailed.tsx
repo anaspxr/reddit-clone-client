@@ -63,6 +63,7 @@ export default function PostDetailed() {
             </div>
           </div>
           <PostOptions
+            queryKey={["post"]}
             onSuccess={() => router.push("/")}
             hasAccess={hasAccess}
             postId={post._id}

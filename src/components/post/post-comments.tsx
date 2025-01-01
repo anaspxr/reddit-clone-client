@@ -33,7 +33,12 @@ export default function PostComments({
       ) : (
         comments &&
         comments.map((comment) => (
-          <CommentCard op={op} key={comment._id} comment={comment} />
+          <CommentCard
+            queryKey={["comments", { id: postId }]}
+            op={op}
+            key={comment._id}
+            comment={comment}
+          />
         ))
       )}
     </div>

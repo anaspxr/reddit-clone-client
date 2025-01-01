@@ -25,7 +25,11 @@ export default function CommunityPosts() {
   return (
     <div className="flex flex-col gap-4 p-2">
       {data?.map((post: Post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard
+          queryKey={["community_posts", { communityName: communityName }]}
+          key={post._id}
+          post={post}
+        />
       ))}
     </div>
   );

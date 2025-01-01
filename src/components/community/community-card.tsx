@@ -30,8 +30,8 @@ export default function CommunityCard({
               </p>
             </div>
           </div>
-          <Button variant="blue" size="sm">
-            Join
+          <Button variant={community.role ? "secondary" : "blue"} size="sm">
+            {community.role ? "Joined" : "Join"}
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">{community.description}</p>

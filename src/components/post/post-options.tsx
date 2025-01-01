@@ -23,7 +23,7 @@ export default function PostOptions({
   type?: "post" | "comment";
   postId: string;
   hasAccess: boolean;
-  queryKey?: string[];
+  queryKey: (string | { [key: string]: string })[];
   onSuccess?: () => void;
 }) {
   const queryClient = useQueryClient();

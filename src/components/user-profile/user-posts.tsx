@@ -21,7 +21,11 @@ export default function UserPosts() {
   return (
     <div className="flex flex-col gap-4 p-2">
       {data?.map((post: Post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard
+          queryKey={["posts", { username: username }]}
+          key={post._id}
+          post={post}
+        />
       ))}
     </div>
   );

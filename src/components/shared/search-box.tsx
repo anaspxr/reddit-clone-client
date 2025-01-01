@@ -47,6 +47,11 @@ export default function SearchBox() {
           if (selected === -1) setSelected(length - 1);
           else setSelected((prev) => (prev - 1 + length) % length);
         } else if (e.key === "Enter") {
+          if (selected < 0 && query.length > 0) {
+            setOpen(false);
+            router.push(`/search?query=${query}`);
+            return;
+          }
           if (selected >= 0) {
             if (selected < (data?.communities.length || 0)) {
               router.push(`/r/${data?.communities[selected].name}`);
@@ -75,6 +80,7 @@ export default function SearchBox() {
     data?.users,
     data?.users.length,
     open,
+    query,
     router,
     selected,
   ]);
@@ -110,6 +116,7 @@ export default function SearchBox() {
           focus:outline-blue-400 focus:bg-white placeholder:text-gray-500 dark:bg-gray-800 dark:text-gray-200`}
         onChange={(e) => {
           if (!open) setOpen(true);
+          setSelected(-1);
           setQuery(e.target.value);
         }}
         value={query}
@@ -137,6 +144,7 @@ export default function SearchBox() {
                   {data.communities.map((item, i) => (
                     <Link key={item.name} href={`/r/${item.name}`}>
                       <Button
+                        onClick={() => setOpen(false)}
                         aria-selected
                         key={item.name}
                         variant="ghost"
@@ -197,7 +205,7 @@ export default function SearchBox() {
           )}
           <div className="py-2">
             {query ? (
-              <Link href={`/search?q=${query}`}>
+              <Link href={`/search?query=${query}`}>
                 <div className="flex items-center gap-2 text-sm border-t hover:bg-gray-300 dark:hover:bg-gray-700 py-2 px-4">
                   <Search
                     strokeWidth={1.2}

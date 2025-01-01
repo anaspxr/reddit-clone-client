@@ -64,7 +64,7 @@ export default function ReactButton({
         title="upvote"
         variant={type === "post" ? "secondary" : "ghost"}
         size="sm"
-        className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8">
+        className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8 shadow-none">
         <ArrowBigUp
           className={currentReaction === "upvote" ? "text-main" : ""}
           strokeWidth={1.2}
@@ -78,7 +78,7 @@ export default function ReactButton({
         title="downvote"
         variant={type === "post" ? "secondary" : "ghost"}
         size="sm"
-        className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8">
+        className="hover:bg-gray-300 dark:hover:bg-gray-600 px-0 h-8 w-8 shadow-none">
         <ArrowBigDown
           className={currentReaction === "downvote" ? "text-main" : ""}
           strokeWidth={1.2}

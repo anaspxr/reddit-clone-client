@@ -61,8 +61,8 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --scrollbar-thumb: #9b9b9b;
-    --scrollbar-track: #222222;
+    --scrollbar-thumb: #171927df;
+    --scrollbar-track: #03031027;
   }
 }
 
@@ -95,16 +95,18 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-}
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-}
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+  }
 
-::-webkit-scrollbar-track {
-  background-color: var(--scrollbar-track);
+  ::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
 }
 
 .scrollbar-thin {

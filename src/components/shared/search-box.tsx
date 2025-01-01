@@ -102,18 +102,39 @@ export default function SearchBox() {
       className={cn("flex items-center relative w-full max-w-lg z-10", {
         "fixed sm:relative w-11/12": open,
       })}
-      onClick={() => setOpen(true)}>
+      onClick={() => {
+        inputRef.current?.focus();
+        setOpen(true);
+      }}>
       <Search
         strokeWidth={1.2}
-        className="text-gray-800 absolute left-4 dark:text-gray-200"
+        className={cn("text-gray-800 absolute left-4 dark:text-gray-200", {
+          "hidden sm:block": !open,
+        })}
         size={20}
       />
+      <Button
+        variant="ghost"
+        className={cn("h-10 w-10 text-gray-800 dark:text-gray-200 sm:hidden", {
+          hidden: open,
+        })}
+        onClick={() => {
+          inputRef.current?.focus();
+          setOpen(true);
+        }}>
+        <Search strokeWidth={1.2} width={25} height={25} />
+      </Button>
       <input
         ref={inputRef}
         type="text"
         placeholder="Search Reddit"
-        className={`px-10 py-2 h-10 w-full  rounded-full text-sm bg-gray-200 text-gray-800 
-          focus:outline-blue-400 focus:bg-white placeholder:text-gray-500 dark:bg-gray-800 dark:text-gray-200`}
+        className={cn(
+          `px-10 py-2 h-10 w-full  rounded-full text-sm bg-gray-200 text-gray-800 
+          focus:outline-blue-400 focus:bg-white placeholder:text-gray-500 dark:bg-gray-800 dark:text-gray-200`,
+          {
+            "hidden sm:block": !open,
+          }
+        )}
         onChange={(e) => {
           if (!open) setOpen(true);
           setSelected(-1);

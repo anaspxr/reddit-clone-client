@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Ellipsis, LogIn, MessageCircleMore } from "lucide-react";
+import { Ellipsis, LogIn, MessageCircleMore } from "lucide-react";
 import { Button } from "../ui/button";
 import ProfileButton from "./profile-button";
 import {
@@ -21,13 +21,15 @@ export default function NavbarButtons() {
     <div className="flex items-center">
       {user ? (
         <>
-          <Button variant="ghost" className="h-10 w-10 hidden sm:flex">
-            <MessageCircleMore width={25} height={25} strokeWidth={1.2} />
-          </Button>
+          <Link href="/chat">
+            <Button variant="ghost" className="h-10 w-10">
+              <MessageCircleMore width={25} height={25} strokeWidth={1.2} />
+            </Button>
+          </Link>
           <CreateButton />
-          <Button variant="ghost" className="h-10 w-10 ">
+          {/* <Button variant="ghost" className="h-10 w-10 ">
             <Bell width={22} height={22} strokeWidth={1.2} />
-          </Button>
+          </Button> */}
           <ProfileButton />
         </>
       ) : (

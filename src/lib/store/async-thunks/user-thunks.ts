@@ -44,6 +44,7 @@ export const logoutUser = createAsyncThunk(
         logoutClearCookie(),
         axios.get("/auth/logout", { withCredentials: true }),
       ]);
+      window.location.reload();
     } catch (err) {
       const errorString = axiosErrorCatch(err);
       toast({

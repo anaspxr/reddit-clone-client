@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Label } from "../ui/label";
@@ -67,16 +66,16 @@ export default function SignupOptions({
           </Link>
         </p>
       </div>
-      <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
+      {/* <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
         <p className="text-sm text-gray-600">Sign In with google</p>
         <Image src="/images/google-logo.png" width={20} height={20} alt="G" />
-      </div>
+      </div> */}
 
-      <div className="flex items-center space-x-2">
+      {/* <div className="flex items-center space-x-2">
         <div className="border-b w-1/2"></div>
         <p className="text-gray-500 text-sm">OR</p>
         <div className="border-b w-1/2"></div>
-      </div>
+      </div> */}
 
       <form onSubmit={handleContinue} className="space-y-4">
         <div className="space-y-2   ">
@@ -103,9 +102,7 @@ export default function SignupOptions({
             Log In
           </Link>
         </p>
-        <Button
-          disabled={loading}
-          className="bg-main hover:bg-main py-4 hover:opacity-80 w-full h-12  font-semibold">
+        <Button disabled={loading} variant="main" className="w-full h-12">
           {loading ? "Loading..." : "Continue"}
         </Button>
       </form>

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { z } from "zod";
@@ -68,7 +67,7 @@ export default function LoginForm() {
       <div>
         <h1 className="text-2xl font-semibold">Log In</h1>
       </div>
-      <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
+      {/* <div className="flex justify-between items-center rounded-full border shadow-sm p-2 hover:bg-gray-100 cursor-pointer">
         <p className="text-sm text-gray-600">Sign In with google</p>
         <Image src="/images/google-logo.png" width={20} height={20} alt="G" />
       </div>
@@ -76,7 +75,7 @@ export default function LoginForm() {
         <div className="border-b w-1/2"></div>
         <p className="text-gray-500 text-sm">OR</p>
         <div className="border-b w-1/2"></div>
-      </div>
+      </div> */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <Label htmlFor="email">Username or Email</Label>
@@ -138,7 +137,8 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="bg-main text-white hover:bg-opacity-80 h-10 hover:bg-main font-semibold w-full">
+          variant="main"
+          className="w-full h-12">
           {isSubmitting ? "Logging In.." : "Log In"}
         </Button>
       </form>

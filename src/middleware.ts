@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyCookie } from "./lib/actions/auth";
 import { AuthError } from "./lib/utils";
 
-const privateRoutes = ["/settings", "/create/post", "/create/community"];
+const privateRoutes = [
+  "/settings",
+  "/create/post",
+  "/create/community",
+  "/chat",
+];
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();

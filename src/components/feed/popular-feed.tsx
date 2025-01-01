@@ -20,7 +20,7 @@ export default function PopularFeed() {
   return (
     <div className="flex flex-col gap-4 p-2">
       {data?.map((post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard queryKey={["popular_feed"]} key={post._id} post={post} />
       ))}
     </div>
   );

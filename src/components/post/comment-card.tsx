@@ -2,8 +2,6 @@
 
 import { Comment } from "@/lib/types/postTypes";
 import React from "react";
-import { Button } from "../ui/button";
-import { MessageCircle } from "lucide-react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
@@ -43,9 +41,9 @@ export default function CommentCard({
           votes={comment.upvotes - comment.downvotes || 0}
           postId={comment._id}
         />
-        <Button variant="ghost" size="sm">
+        {/* <Button variant="ghost" size="sm">
           <MessageCircle size={20} strokeWidth={1.2} /> Reply
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

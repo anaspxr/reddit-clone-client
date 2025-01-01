@@ -2,7 +2,6 @@
 
 import { Post } from "@/lib/types/postTypes";
 import { CldImage, CldVideoPlayer } from "next-cloudinary";
-import Image from "next/image";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import ReactButton from "./react-button";
@@ -15,9 +14,14 @@ import Spinner from "../ui/spinner";
 import ErrorPage from "../ui/error-page";
 import PostComments from "./post-comments";
 import { toast } from "@/hooks/use-toast";
+import Avatar from "../ui/avatar";
+import PostOptions from "./post-options";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/lib/store";
 
 export default function PostDetailed() {
   const { id } = useParams();
+  const router = useRouter();
   const {
     data: post,
     isLoading,
@@ -31,6 +35,8 @@ export default function PostDetailed() {
       return data.data;
     },
   });
+  const { user } = useAppSelector((state) => state.user);
+  const hasAccess = user?.username === post?.creator.username;
 
   return isLoading ? (
     <div className="h-full w-full flex items-center justify-center">
@@ -41,24 +47,26 @@ export default function PostDetailed() {
   ) : (
     post && (
       <div className="space-y-2 pb-2">
-        <div className="flex gap-2   items-center">
-          <div className="w-10 h-10  rounded-full overflow-hidden">
-            {(post.community?.icon || post.creator.avatar) && (
-              <Image
-                src={post.community?.icon || post.creator.avatar}
-                alt=""
-                width={20}
-                height={20}
-                className="w-full h-full object-cover"
-              />
-            )}
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-center">
+            <Avatar
+              src={post.community?.icon || post.creator.avatar}
+              type={post.community?.name ? "community" : "user"}
+              className="w-10 h-10"
+            />
+
+            <div>
+              {post.community?.name && <p>r/{post.community?.name}</p>}
+              <p className="text-xs text-muted-foreground">
+                u/{post.creator.username}
+              </p>
+            </div>
           </div>
-          <div>
-            {post.community?.name && <p>r/{post.community?.name}</p>}
-            <p className="text-xs text-muted-foreground">
-              u/{post.creator.username}
-            </p>
-          </div>
+          <PostOptions
+            onSuccess={() => router.push("/")}
+            hasAccess={hasAccess}
+            postId={post._id}
+          />
         </div>
         <h1 className="font-semibold text-2xl">{post.title}</h1>
         {post.body && (

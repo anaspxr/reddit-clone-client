@@ -13,39 +13,61 @@ import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
 import { getPostedTimeDiff } from "@/lib/utils";
 import Avatar from "../ui/avatar";
+import { useAppSelector } from "@/lib/store";
+import PostOptions from "./post-options";
 
 export default function PostCard({
   post,
+  queryKey,
   detailed = false,
 }: {
   post: Post;
+  queryKey: string[];
   detailed?: boolean;
 }) {
+  const { user } = useAppSelector((state) => state.user);
+  const hasAccess = user?.username === post.creator.username;
+
   return (
-    <div className="border-b pb-2">
-      <Link
-        href={`/post/${post._id}`}
-        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 block rounded-md space-y-2">
+    <div className="border-b pb-2 relative">
+      <div className="absolute top-2 w-full flex justify-between p-2">
         <div className="flex gap-2 items-center">
-          <Avatar
-            className="w-6 h-6"
-            src={
-              post.community?.name ? post.community.icon : post.creator?.avatar
-            }
-            type={post.community?.name ? "community" : "user"}
-          />
-          <div className="flex items-center gap-2">
+          <Link
+            className="flex gap-2 items-center hover:underline"
+            href={
+              post.community?.name
+                ? `/r/${post.community.name}`
+                : `/u/${post.creator.username}`
+            }>
+            <Avatar
+              className="w-6 h-6"
+              src={
+                post.community?.name
+                  ? post.community.icon
+                  : post.creator?.avatar
+              }
+              type={post.community?.name ? "community" : "user"}
+            />
             <p className="text-xs text-muted-foreground">
               {post.community?.name
                 ? `r/${post.community.name}`
                 : `u/${post.creator.username}`}
             </p>
-            •
-            <p className="text text-xs text-muted-foreground">
-              {getPostedTimeDiff(post.createdAt)}
-            </p>
-          </div>
+          </Link>
+          •
+          <p className="text text-xs text-muted-foreground">
+            {getPostedTimeDiff(post.createdAt)}
+          </p>
         </div>
+        <PostOptions
+          queryKey={queryKey}
+          hasAccess={hasAccess}
+          postId={post._id}
+        />
+      </div>
+      <Link
+        href={`/post/${post._id}`}
+        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 block rounded-md space-y-2 pt-12">
         <h1 className="font-semibold">{post.title}</h1>
         {post.body && (
           <p

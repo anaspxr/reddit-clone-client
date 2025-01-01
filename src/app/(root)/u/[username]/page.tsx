@@ -1,22 +1,10 @@
-import Link from "next/link";
+import UserPosts from "@/components/user-profile/user-posts";
 
-export default async function page({
-  params,
-}: {
-  params: Promise<{ username: string }>;
-}) {
-  const { username } = await params;
-
+export default async function page() {
   return (
     <div className="flex flex-col gap-4 my-4">
-      <Link href={`/u/${username}/posts`} className="hover:underline">
-        <p>Posts: 12</p>
-      </Link>
-      <Link href={`/u/${username}/posts`} className="hover:underline">
-        <p>Comments : 15</p>
-      </Link>
-      <p>Followers</p>
-      <p>Karma: 56</p>
+      <h1 className="text-2xl sm:text-3xl font-semibold">Posts</h1>
+      <UserPosts />
     </div>
   );
 }

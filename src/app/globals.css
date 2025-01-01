@@ -107,12 +107,24 @@ body {
   background-color: var(--scrollbar-track);
 }
 
+.scrollbar-thin {
+  overflow: hidden; /* to only show scrollbar when hovering */
+  padding-right: 6px;
+  box-sizing: content-box;
+}
+.scrollbar-thin:hover {
+  overflow-y: auto;
+}
+
+/* Custom scrollbar styles */
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
+
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
 }
+
 .scrollbar-thin::-webkit-scrollbar-track {
   background-color: var(--scrollbar-track);
 }

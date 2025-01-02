@@ -27,7 +27,7 @@ export default function SearchUsers() {
   const router = useRouter();
 
   const { data } = useQuery<SearchResult>({
-    queryKey: ["search", debouncedQuery],
+    queryKey: ["search_people", debouncedQuery],
     queryFn: async () => {
       setSelected(-1);
       const { data } = await axios.get(

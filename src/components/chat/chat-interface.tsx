@@ -44,9 +44,11 @@ export default function ChatInterface() {
   });
 
   useEffect(() => {
-    if (!socket.connected) socket.connect();
     if (chatData) {
-      socket.auth = { userId: chatData.userId };
+      if (!socket.connected && chatData.userId) {
+        socket.auth = { userId: chatData.userId };
+        socket.connect();
+      }
       socket.on("connect_error", (err) => {
         console.error("socket error:", err);
       });

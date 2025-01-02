@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import dayjs from "dayjs";
 import { FileError } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
+import { Message } from "./store/slices/chatSlice";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -59,5 +60,19 @@ export const getPostedTimeDiff = (createdAt: string) => {
     return `${Math.floor(ms / 2419200000)}m ago`;
   } else {
     return `${Math.floor(ms / 2903040000)}y ago`;
+  }
+};
+
+export const showMessageTime = (current: Message, next?: Message) => {
+  const formatted = dayjs(current.createdAt).format("hh:mm a");
+
+  if (current.sender !== next?.sender) {
+    return formatted;
+  }
+
+  if (formatted !== dayjs(next?.createdAt).format("hh:mm a")) {
+    return formatted;
+  } else {
+    return null;
   }
 };

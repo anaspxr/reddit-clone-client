@@ -13,10 +13,10 @@ const types = [
     name: "Images & Video",
     value: "media",
   },
-  {
-    name: "Link",
-    value: "link",
-  },
+  // {
+  //   name: "Link",
+  //   value: "link",
+  // },
 ];
 
 export default function SelectType() {

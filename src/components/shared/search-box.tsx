@@ -163,9 +163,11 @@ export default function SearchBox() {
                 <div className="py-2 border-b dark:border-gray-700">
                   <p className="text-sm font-semibold px-4 pb-2">Communities</p>
                   {data.communities.map((item, i) => (
-                    <Link key={item.name} href={`/r/${item.name}`}>
+                    <Link
+                      key={item.name}
+                      href={`/r/${item.name}`}
+                      onClick={() => setOpen(false)}>
                       <Button
-                        onClick={() => setOpen(false)}
                         aria-selected
                         key={item.name}
                         variant="ghost"
@@ -197,6 +199,9 @@ export default function SearchBox() {
                   {data.users.map((item, i) => (
                     <Link key={item.username} href={`/u/${item.username}`}>
                       <Button
+                        onClick={() => {
+                          setOpen(false);
+                        }}
                         key={item.username}
                         variant="ghost"
                         rounded="md"

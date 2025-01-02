@@ -38,11 +38,9 @@ export default function layout({
           </div>
           <ProfileButton />
         </div>
-        <div className="flex h-[calc(100vh-57px)] overflow-hidden">
+        <div className="flex h-[calc(100vh-57px)] overflow-y-hidden ">
           <ChatSideBar />
-          <div className="w-full overflow-y-auto px-2 sm:px-8 py-4 ">
-            {children}
-          </div>
+          <div className="w-full  overflow-y-auto">{children}</div>
         </div>
       </ChatSidebarStateProvider>
     </div>

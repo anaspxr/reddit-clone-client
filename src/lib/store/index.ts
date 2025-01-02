@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import chatReducer from "./slices/chatSlice";
 
 const persistConfig = {
   // for persisting user's data on browser
@@ -25,9 +26,10 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       user: persistedUserReducer,
+      chat: chatReducer,
     },
 
-    devTools: process.env.NODE_ENV !== "production",
+    devTools: process.env.NODE_ENV === "development",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {

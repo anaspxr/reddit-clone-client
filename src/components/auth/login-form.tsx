@@ -80,6 +80,7 @@ export default function LoginForm() {
         <div>
           <Label htmlFor="email">Username or Email</Label>
           <Input
+            placeholder="Username or email"
             id="email"
             name="email"
             type="text"

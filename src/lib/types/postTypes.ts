@@ -24,6 +24,7 @@ export type Post = {
 };
 
 export type Comment = {
+  parentComment?: string;
   _id: string;
   body: string;
   createdAt: string;

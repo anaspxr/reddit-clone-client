@@ -1,7 +1,7 @@
 "use client";
 
 import { Comment } from "@/lib/types/postTypes";
-import React from "react";
+import React, { useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
@@ -9,16 +9,23 @@ import { getPostedTimeDiff } from "@/lib/utils";
 import Avatar from "../ui/avatar";
 import PostOptions from "./post-options";
 import { useAppSelector } from "@/lib/store";
+import { Button } from "../ui/button";
+import { MessageCircleOff, MessageCirclePlusIcon } from "lucide-react";
+import CommentInput from "./comment-input";
+import CommentReplies from "./comment-replies";
 
 export default function CommentCard({
+  postId,
   comment,
   queryKey,
   op,
 }: {
+  postId: string;
   queryKey: (string | { [key: string]: string })[];
   comment: Comment;
   op?: string;
 }) {
+  const [replyOpen, setReplyOpen] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const hasAccess = user?.username === comment.creator.username;
   return (
@@ -55,10 +62,24 @@ export default function CommentCard({
           votes={comment.upvotes - comment.downvotes || 0}
           postId={comment._id}
         />
-        {/* <Button variant="ghost" size="sm">
-          <MessageCircle size={20} strokeWidth={1.2} /> Reply
-        </Button> */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setReplyOpen(!replyOpen)}>
+          {replyOpen ? (
+            <MessageCircleOff size={20} strokeWidth={1.2} />
+          ) : (
+            <MessageCirclePlusIcon size={20} strokeWidth={1.2} />
+          )}
+          {replyOpen ? "Close" : "Replies"}
+        </Button>
       </div>
+      {replyOpen && (
+        <div className="ml-4 border-l pl-2">
+          <CommentReplies commentId={comment._id} op={op} postId={postId} />
+          <CommentInput postId={postId} commentId={comment._id} />
+        </div>
+      )}
     </div>
   );
 }

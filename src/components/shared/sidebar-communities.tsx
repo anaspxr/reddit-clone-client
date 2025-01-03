@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { getUserCommunities } from "@/lib/store/async-thunks/user-thunks";
 
 export default function SidebarCommunities() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const { communities } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 

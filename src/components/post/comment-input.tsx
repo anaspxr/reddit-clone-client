@@ -7,7 +7,13 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function CommentInput({ postId }: { postId: string }) {
+export default function CommentInput({
+  postId,
+  commentId,
+}: {
+  postId: string;
+  commentId?: string;
+}) {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -23,19 +29,33 @@ export default function CommentInput({ postId }: { postId: string }) {
         {
           body: comment,
           postId,
+          parentComment: commentId,
         },
         { withCredentials: true }
       );
       setComment("");
       setCommentAdded(true);
       setIsOpen(false);
-      queryClient.setQueryData(
-        ["comments", { id: postId }],
-        (old: Comment[]) => {
-          const newData = [data.data, ...old];
-          return newData;
-        }
-      );
+      if (!commentId) {
+        // add the new comment to comments array if its on main thread
+        queryClient.setQueryData(
+          ["comments", { id: postId }],
+          (old: Comment[]) => {
+            const newData = [data.data, ...old];
+            return newData;
+          }
+        );
+      }
+      if (commentId) {
+        // add the new comment to the thread
+        queryClient.setQueryData(
+          ["replies", { id: commentId }],
+          (old: Comment[]) => {
+            const newData = [...old, data.data];
+            return newData;
+          }
+        );
+      }
     } catch (error) {
       toast({
         title: "Couldn't post comment",
@@ -75,7 +95,7 @@ export default function CommentInput({ postId }: { postId: string }) {
         <div
           onClick={() => setIsOpen(true)}
           className="w-full h-12 cursor-text text-sm border rounded-3xl px-4 flex items-center text-muted-foreground">
-          Add a comment
+          {commentId ? "Write your reply" : "Add a comment"}
         </div>
       )}
       {commentAdded && !isOpen && (

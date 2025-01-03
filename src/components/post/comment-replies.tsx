@@ -1,31 +1,30 @@
 import React from "react";
-import CommentInput from "./comment-input";
-import { useQuery } from "@tanstack/react-query";
-import axios from "@/lib/axios";
-import { Comment } from "@/lib/types/postTypes";
 import Spinner from "../ui/spinner";
 import CommentCard from "./comment-card";
+import { useQuery } from "@tanstack/react-query";
+import { Comment } from "@/lib/types/postTypes";
+import axios from "@/lib/axios";
 
-export default function PostComments({
+export default function CommentReplies({
+  commentId,
   postId,
   op,
 }: {
+  commentId: string;
+  op?: string;
   postId: string;
-  op: string;
 }) {
   const { data: comments, isLoading } = useQuery<Comment[]>({
-    queryKey: ["comments", { id: postId }],
+    queryKey: ["replies", { id: commentId }],
     queryFn: async () => {
-      const { data } = await axios.get(`/public/comment/${postId}`, {
+      const { data } = await axios.get(`/public/replies/${commentId}`, {
         withCredentials: true,
       });
       return data.data;
     },
   });
-
   return (
     <div>
-      <CommentInput postId={postId} />
       {isLoading ? (
         <div className="flex items-center justify-center w-full h-full">
           <Spinner />

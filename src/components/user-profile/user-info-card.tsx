@@ -22,7 +22,7 @@ export default function UserInfoCard() {
   const { toast } = useToast();
 
   return (
-    <Card className="xl:fixed right-8  top-16 w-full max-w-[400px] bg-transparent xl:dark:bg-black xl:bg-gray-200 overflow-hidden">
+    <Card className="xl:fixed right-8 top-16 w-full max-w-lg   xl:w-[360px] bg-transparent xl:dark:bg-black xl:bg-gray-200 overflow-hidden">
       {userProfile && (
         <>
           <CardHeader className="px-0 py-0">

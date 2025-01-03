@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector } from "@/lib/store";
+// import { useAppSelector } from "@/lib/store";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
@@ -12,16 +12,16 @@ const publicNavItems = [
   { label: "Comments", to: "comments" },
 ];
 
-const privateNavItems = [
-  // { label: "Saved", to: "saved" },
-  // { label: "Hidden", to: "hidden" },
-  { label: "Upvoted", to: "upvoted" },
-  { label: "Downvoted", to: "downvoted" },
-];
+// const privateNavItems = [
+//   // { label: "Saved", to: "saved" },
+//   // { label: "Hidden", to: "hidden" },
+//   { label: "Upvoted", to: "upvoted" },
+//   { label: "Downvoted", to: "downvoted" },
+// ];
 
 export default function ProfileMenu({ username }: { username: string }) {
-  const { user } = useAppSelector((state) => state.user);
-  const isOwnProfile = user?.username === username;
+  // const { user } = useAppSelector((state) => state.user);
+  // const isOwnProfile = user?.username === username;
   const currentPath = usePathname().split("/").at(-1);
 
   return (
@@ -43,12 +43,12 @@ export default function ProfileMenu({ username }: { username: string }) {
           </Button>
         </Link>
       ))}
-      {isOwnProfile &&
+      {/* {isOwnProfile &&
         privateNavItems.map((item, i) => (
           <Link key={i} href={`/u/${username}/${item.to}`}>
             <Button variant="link">{item.label}</Button>
           </Link>
-        ))}
+        ))} */}
     </div>
   );
 }

@@ -30,6 +30,7 @@ export default function UserComments() {
         comments &&
         comments.map((comment) => (
           <CommentCard
+            postId={""}
             queryKey={["user-comments", username]}
             key={comment._id}
             comment={comment}

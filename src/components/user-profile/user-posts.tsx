@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 
 export default function UserPosts() {
   const { username }: { username: string } = useParams();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["posts", { username: username }],
     queryFn: async () => {
       const { data } = await axios.get(`/public/user/${username}/posts`, {
@@ -27,6 +27,11 @@ export default function UserPosts() {
           post={post}
         />
       ))}
+      {!isLoading && data?.length === 0 && (
+        <p className="text-muted-foreground">
+          {username} hasn&apos;t posted anything yet
+        </p>
+      )}
     </div>
   );
 }

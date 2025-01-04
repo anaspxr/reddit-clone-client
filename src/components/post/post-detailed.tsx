@@ -18,6 +18,7 @@ import Avatar from "../ui/avatar";
 import PostOptions from "./post-options";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/lib/store";
+import Link from "next/link";
 
 export default function PostDetailed() {
   const { id } = useParams();
@@ -48,7 +49,13 @@ export default function PostDetailed() {
     post && (
       <div className="space-y-2 pb-2">
         <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
+          <Link
+            href={
+              post.community?.name
+                ? `/r/${post.community?.name}`
+                : `/u/${post.creator.username}`
+            }
+            className="flex gap-2 items-center hover:underline">
             <Avatar
               src={post.community?.icon || post.creator.avatar}
               type={post.community?.name ? "community" : "user"}
@@ -61,7 +68,7 @@ export default function PostDetailed() {
                 u/{post.creator.username}
               </p>
             </div>
-          </div>
+          </Link>
           <PostOptions
             queryKey={["post"]}
             onSuccess={() => router.push("/")}

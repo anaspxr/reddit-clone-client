@@ -2,7 +2,7 @@
 
 import { Bell, CheckCheck, Dot } from "lucide-react";
 import { Button } from "../ui/button";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { Notification } from "@/lib/types/postTypes";
@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
+import socket from "@/lib/socket";
 
 export default function NotificationIcon() {
   const {
@@ -35,10 +36,19 @@ export default function NotificationIcon() {
     [notifications]
   );
 
-  const handleMarkAsRead = async (notification: Notification) => {
+  useEffect(() => {
+    socket.on("notification", () => {
+      refetch();
+    });
+    return () => {
+      socket.off("notification");
+    };
+  }, [refetch]);
+
+  const handleMarkAsRead = async () => {
     try {
       await axios.put(
-        `/user/notifications/${notification._id}/read`,
+        `/user/notifications/read-all`,
         {},
         { withCredentials: true }
       );
@@ -68,11 +78,20 @@ export default function NotificationIcon() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-80 mr-2">
-        <DropdownMenuLabel>
-          Notifications{" "}
+        <DropdownMenuLabel className="flex justify-between items-center">
+          Notifications
           {unreadNotifications?.length
             ? `(${unreadNotifications?.length} Unread)`
             : ""}
+          {unreadNotifications?.length ? (
+            <Button
+              onClick={handleMarkAsRead}
+              title="Mark all as read"
+              variant="ghost"
+              className="h-6 w-6">
+              <CheckCheck size={20} strokeWidth={1.2} />
+            </Button>
+          ) : null}
         </DropdownMenuLabel>
         {isLoading && (
           <p className="text-center text-sm text-muted-foreground py-2">
@@ -84,27 +103,22 @@ export default function NotificationIcon() {
             No new notifications
           </p>
         )}
-        <div>
-          {unreadNotifications?.map((notification) => (
-            <Link
-              href={notification.link}
-              key={notification._id}
-              className="flex items-center gap-2 px-2">
-              <DropdownMenuItem>
-                <Dot className="text-main" /> {notification.message}
-              </DropdownMenuItem>
-              <Button
-                onClick={() => {
-                  handleMarkAsRead(notification);
-                }}
-                title="Mark as read"
-                variant="ghost"
-                className="h-6 w-6">
-                <CheckCheck size={20} strokeWidth={1.2} />
-              </Button>
-            </Link>
-          ))}
+        <div className="max-h-80 overflow-y-auto scrollbar-thin">
+          <div>
+            {unreadNotifications?.slice(0, 6).map((notification) => (
+              <Link key={notification._id} href={notification.link}>
+                <DropdownMenuItem className="pr-4">
+                  <Dot className="text-main" /> {notification.message}
+                </DropdownMenuItem>
+              </Link>
+            ))}
+          </div>
         </div>
+        {unreadNotifications && unreadNotifications.length > 6 && (
+          <p className="text-center text-xs text-muted-foreground">
+            + {unreadNotifications?.length - 6} messages
+          </p>
+        )}
         <Link href={`/notifications`}>
           <DropdownMenuItem className="justify-center mt-4 cursor-pointer">
             See all notifications

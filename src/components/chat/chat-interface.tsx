@@ -44,22 +44,6 @@ export default function ChatInterface() {
   });
 
   useEffect(() => {
-    if (chatData) {
-      if (!socket.connected && chatData.userId) {
-        socket.auth = { userId: chatData.userId };
-        socket.connect();
-      }
-      socket.on("connect_error", (err) => {
-        console.error("socket error:", err);
-      });
-
-      if (chatData.userId) {
-        socket.emit("join", chatData.userId);
-      }
-    }
-  }, [chatData]);
-
-  useEffect(() => {
     const onMessage = (message: {
       _id: string;
       sender: string;
@@ -86,7 +70,12 @@ export default function ChatInterface() {
     return () => clearTimeout(timeout);
   }, [messages]);
 
-  if (!personName) return null;
+  if (!personName)
+    return (
+      <div className="h-full flex items-start justify-center pt-10">
+        <p className="text-muted-foreground">Select a person to chat with</p>
+      </div>
+    );
 
   return isLoading ? (
     <div className="h-full flex items-center justify-center">

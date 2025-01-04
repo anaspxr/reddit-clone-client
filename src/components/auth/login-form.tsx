@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { stateLogin } from "@/lib/store/slices/userSlice";
 import { setLoginCookie } from "@/lib/actions/auth";
+import { connectSocket } from "@/lib/socket";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
@@ -51,8 +52,8 @@ export default function LoginForm() {
         });
 
         await setLoginCookie({ username: data.data.username });
-
         dispatch(stateLogin(data.data));
+        await connectSocket();
         router.push("/");
       } catch (error) {
         setError(axiosErrorCatch(error));

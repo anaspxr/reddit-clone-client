@@ -21,7 +21,7 @@ export const ChatSidebarStateProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
     <ChatSidebarStateContext.Provider

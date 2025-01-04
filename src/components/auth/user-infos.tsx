@@ -12,6 +12,7 @@ import { axiosErrorCatch } from "../../lib/axios";
 import { useAppDispatch } from "@/lib/store";
 import { stateLogin } from "@/lib/store/slices/userSlice";
 import { setLoginCookie } from "@/lib/actions/auth";
+import { connectSocket } from "@/lib/socket";
 
 const validationSchema = toFormikValidationSchema(
   z.object({
@@ -78,7 +79,7 @@ export default function UserInfos({ email }: { email: string }) {
         await setLoginCookie({ username: values.username });
 
         dispatch(stateLogin(data.data));
-
+        await connectSocket();
         router.push("/");
       } catch (error) {
         setError(axiosErrorCatch(error));

@@ -13,6 +13,7 @@ import DarkModeSwitch from "./dark-mode-switch";
 import Link from "next/link";
 import { useAppSelector } from "@/lib/store";
 import CreateButton from "./create-button";
+import NotificationIcon from "../notification/notification-icon";
 
 export default function NavbarButtons() {
   const { user } = useAppSelector((state) => state.user);
@@ -27,9 +28,7 @@ export default function NavbarButtons() {
             </Button>
           </Link>
           <CreateButton />
-          {/* <Button variant="ghost" className="h-10 w-10 ">
-            <Bell width={22} height={22} strokeWidth={1.2} />
-          </Button> */}
+          <NotificationIcon />
           <ProfileButton />
         </>
       ) : (

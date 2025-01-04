@@ -1,10 +1,13 @@
 import { toast } from "@/hooks/use-toast";
 import { logoutClearCookie, verifyTokenForClient } from "@/lib/actions/auth";
 import axios, { axiosErrorCatch } from "@/lib/axios";
+import { connectSocket } from "@/lib/socket";
 import { AuthError } from "@/lib/utils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isAxiosError } from "axios";
 
+// hydrate user on first load and set session_ended if token is expired
+//also connects to socket for notifications and chat
 export const hydrateUser = createAsyncThunk(
   "user/hydrate",
   async (handleTokenExpire: () => void, { rejectWithValue }) => {
@@ -20,6 +23,8 @@ export const hydrateUser = createAsyncThunk(
         withCredentials: true,
       });
       const userData = data.data;
+      // connect to socket if user is logged in
+      await connectSocket();
       return userData;
     } catch (err) {
       const error = axiosErrorCatch(err);

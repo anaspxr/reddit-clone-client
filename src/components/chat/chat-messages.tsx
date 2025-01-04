@@ -14,7 +14,7 @@ export default function ChatMessages({
   return (
     <div
       ref={ref}
-      className="flex flex-col gap-2 overflow-y-auto scrollbar-thin border-b p-2 pr-6">
+      className="flex flex-col gap-1 overflow-y-auto scrollbar-thin border-b p-2 pr-6">
       {messages.map((message, i) => {
         const time = showMessageTime(message, messages[i + 1]);
         return (

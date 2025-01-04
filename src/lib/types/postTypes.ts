@@ -39,3 +39,12 @@ export type Comment = {
   downvotes: number;
   userReaction?: "downvote" | "upvote";
 };
+
+export type Notification = {
+  _id: string;
+  user: string;
+  type: "comment" | "upvote" | "downvote";
+  message: string;
+  link: string;
+  isRead: boolean;
+};

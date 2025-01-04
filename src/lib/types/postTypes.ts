@@ -40,11 +40,14 @@ export type Comment = {
   userReaction?: "downvote" | "upvote";
 };
 
+export type NotificationTypes = "like" | "comment" | "follow";
+
 export type Notification = {
   _id: string;
   user: string;
-  type: "comment" | "upvote" | "downvote";
+  type: NotificationTypes;
   message: string;
   link: string;
   isRead: boolean;
+  createdAt: string;
 };

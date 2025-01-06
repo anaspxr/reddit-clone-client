@@ -10,7 +10,7 @@ import Spinner from "../ui/spinner";
 import { SettingsItemContainer } from "../user-settings/settings-item-container";
 import Displayname from "./settings-components/display-name";
 import Description from "./settings-components/description";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import ChangeIcon from "./settings-components/icon";
@@ -93,6 +93,22 @@ export default function CommunitySettings() {
               description={setting.description}
             />
           ))}
+          <Link href={`/r/${communityName}/settings/members`} className="block">
+            <button className="group flex items-center justify-between text-start w-full">
+              <div>
+                <h3>Members</h3>
+                <p className="text-sm text-gray-500">
+                  Manage members in your community
+                </p>
+              </div>
+              <ChevronRight
+                width={40}
+                height={40}
+                className="bg-transparent p-2 rounded-full group-hover:bg-gray-200 dark:group-hover:bg-gray-800 transition-colors duration-200"
+                strokeWidth={1.2}
+              />
+            </button>
+          </Link>
         </div>
       )}
     </div>

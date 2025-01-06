@@ -8,9 +8,11 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 export default function OtpVerify({
   email,
   setStep,
+  setBack,
 }: {
   email: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  setBack?: () => void;
 }) {
   const [sending, setSending] = useState(false);
   const [value, setValue] = useState("");
@@ -59,7 +61,7 @@ export default function OtpVerify({
     setLoading(true);
 
     try {
-      await axios.post("/auth/register/verify", { otp: value, email });
+      await axios.post("/auth/verify-otp", { otp: value, email });
       setStep(3);
     } catch (error) {
       setError(axiosErrorCatch(error));
@@ -71,9 +73,12 @@ export default function OtpVerify({
   return (
     <>
       <Button
-        title="Back to Sign In options"
+        title="Back to Previous step"
         variant="ghost"
-        onClick={() => setStep(1)}
+        onClick={() => {
+          if (setBack) setBack();
+          else setStep(1);
+        }}
         className="absolute top-4 left-4 ">
         <ArrowLeft />
       </Button>

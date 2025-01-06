@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Skeleton from "./skeleton";
-import SideBarSkeleton from "./sidebar-skeleton";
 
 export default function MainSkeleton() {
   return (
@@ -26,7 +25,7 @@ export default function MainSkeleton() {
           <Skeleton className="h-10 w-10 rounded-full" />
         </div>
       </div>
-      <SideBarSkeleton />
+      <div className="hidden lg:block z-10 h-[calc(100vh-57px)] overflow-y-auto w-[250px] border-r px-4 bg-white dark:bg-gray-950" />
     </div>
   );
 }

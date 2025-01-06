@@ -2,6 +2,7 @@ import baseAxios, { isAxiosError } from "axios";
 
 const axios = baseAxios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
 });
 
 export const axiosErrorCatch = (error: unknown): string => {

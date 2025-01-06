@@ -69,11 +69,7 @@ export default function Community() {
                   </h2>
                   <p className="text-muted-foreground">r/{community.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {community.description} Lorem ipsum dolor sit amet
-                    consectetur, adipisicing elit. Cumque deleniti voluptatum
-                    tempora molestias ipsam vitae aut placeat officiis natus
-                    eligendi voluptas molestiae, mollitia illum, voluptatem
-                    doloremque dolores repellendus laudantium a!
+                    {community.description}
                   </p>
                 </div>
               </div>

@@ -4,21 +4,21 @@ import React, { useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { displayNameSchema } from "@/lib/form-validation/user-profile";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SettingsChildProps } from "@/components/user-settings/settings-item-container";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { useParams } from "next/navigation";
 
-export default function Displayname({ setOpen }: SettingsChildProps) {
+import { Textarea } from "@/components/ui/textarea";
+export default function Description({ setOpen }: SettingsChildProps) {
   const [value, setValue] = useState("");
   const [blurred, setBlurred] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>("");
   const { communityName } = useParams();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { error: valError } = displayNameSchema.safeParse(e.target.value);
     if (valError) {
       setError(valError.errors[0].message);
@@ -38,8 +38,8 @@ export default function Displayname({ setOpen }: SettingsChildProps) {
       return;
     }
     try {
-      await axios.put(`/community/${communityName}/displayname`, {
-        displayName: value,
+      await axios.put(`/community/${communityName}/description`, {
+        description: value,
       });
       setOpen(false);
     } catch (error) {
@@ -53,9 +53,9 @@ export default function Displayname({ setOpen }: SettingsChildProps) {
     <>
       <form onSubmit={handleSubmit} id="display-name">
         <Label htmlFor="name" className="font-semibold text-sm">
-          New Display Name
+          New Description
         </Label>
-        <Input
+        <Textarea
           onChange={handleChange}
           onBlur={() => setBlurred(true)}
           id="name"

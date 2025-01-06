@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import DeleteAccount from "./delete-account";
 
 export default function AccountSettings() {
   return (
@@ -20,6 +21,7 @@ export default function AccountSettings() {
             />
           </button>
         </Link>
+        <DeleteAccount />
       </div>
     </div>
   );

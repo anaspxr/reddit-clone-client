@@ -26,8 +26,8 @@ export default function UserInfoCard() {
       {userProfile && (
         <>
           <CardHeader className="px-0 py-0">
-            <div className="relative w-full h-20 flex flex-col gap-2 justify-center">
-              {userProfile.banner && (
+            {userProfile.banner && (
+              <div className="relative w-full h-20 flex flex-col gap-2 justify-center">
                 <Image
                   src={userProfile.banner}
                   alt=""
@@ -35,8 +35,8 @@ export default function UserInfoCard() {
                   width={1500}
                   className="w-full h-full object-cover absolute "
                 />
-              )}
-            </div>
+              </div>
+            )}
             <div className="flex flex-col gap-2 items-start justify-between px-4 py-2">
               <CardTitle className="text-lg xl:block hidden">
                 {userProfile.displayName}

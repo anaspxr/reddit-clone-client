@@ -43,8 +43,8 @@ export default function Community() {
       ) : (
         community && (
           <div>
-            <div className="h-10 sm:h-20 w-full overflow-hidden bg-secondary rounded-md">
-              {community.banner && (
+            {community.banner && (
+              <div className="h-10 sm:h-20 w-full overflow-hidden bg-secondary rounded-md">
                 <Image
                   src={community.banner}
                   width={1500}
@@ -52,27 +52,41 @@ export default function Community() {
                   alt="Community Banner"
                   className="w-full h-full object-cover"
                 />
-              )}
-            </div>
+              </div>
+            )}
             <div className="flex items-center gap-4 mt-4">
               <Avatar
+                w={500}
+                h={500}
                 src={community.icon}
                 className="h-20 w-20"
                 type="community"
               />
               <div className="flex justify-between gap-4 flex-wrap w-full">
-                <h2 className="text-xl sm:text-4xl font-semibold">
-                  r/{community.name}
-                </h2>
-                <div className="flex items-center gap-2">
-                  <Link href={`/create/post?community=${community.name}`}>
-                    <Button variant="outline" size="lg" className="px-4">
-                      <Plus strokeWidth={1.2} /> Create Post
-                    </Button>
-                  </Link>
-                  <JoinButton refetch={refetch} community={community} />
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-semibold">
+                    {community.displayName}
+                  </h2>
+                  <p className="text-muted-foreground">r/{community.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {community.description} Lorem ipsum dolor sit amet
+                    consectetur, adipisicing elit. Cumque deleniti voluptatum
+                    tempora molestias ipsam vitae aut placeat officiis natus
+                    eligendi voluptas molestiae, mollitia illum, voluptatem
+                    doloremque dolores repellendus laudantium a!
+                  </p>
                 </div>
               </div>
+            </div>
+            <div className="flex items-center gap-2 my-2">
+              <Link href={`/create/post?community=${community.name}`}>
+                {community.role && (
+                  <Button variant="outline" size="lg" className="px-4">
+                    <Plus strokeWidth={1.2} /> Create Post
+                  </Button>
+                )}
+              </Link>
+              <JoinButton refetch={refetch} community={community} />
             </div>
             <CommunityPosts />
           </div>

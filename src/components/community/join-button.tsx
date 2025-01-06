@@ -8,6 +8,8 @@ import { useAppSelector } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { Settings } from "lucide-react";
+import Link from "next/link";
 
 export default function JoinButton({
   community,
@@ -21,8 +23,8 @@ export default function JoinButton({
   const { user } = useAppSelector((state) => state.user);
   const router = useRouter();
 
-  if (community.role === "admin") return <AdminButton />;
-  if (community.role === "moderator") return <ModeratorButton />;
+  if (community.role === "admin" || community.role === "moderator")
+    return <AdminButton communityName={community.name} role={community.role} />;
   if (community.role)
     return <JoinedButton refetch={refetch} name={community.name} />;
 
@@ -99,18 +101,19 @@ function JoinedButton({
   );
 }
 
-function AdminButton() {
+function AdminButton({
+  communityName,
+  role,
+}: {
+  communityName: string;
+  role: string;
+}) {
   return (
-    <Button variant="outline" size="lg">
-      Admin
-    </Button>
-  );
-}
-
-function ModeratorButton() {
-  return (
-    <Button variant="outline" size="lg">
-      Moderator
-    </Button>
+    <Link href={`/r/${communityName}/settings`}>
+      <Button variant="outline" size="lg">
+        {role === "admin" ? "Admin" : "Moderator"}{" "}
+        <Settings strokeWidth={1.2} size={15} />
+      </Button>
+    </Link>
   );
 }

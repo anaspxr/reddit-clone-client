@@ -5,10 +5,14 @@ export default function Avatar({
   type = "user",
   src,
   className = "",
+  w = 20,
+  h = 20,
 }: {
   type?: "user" | "community";
   src?: string;
   className?: string;
+  w?: number;
+  h?: number;
 }) {
   const fallback =
     type === "user"
@@ -19,8 +23,8 @@ export default function Avatar({
       <Image
         src={src || fallback}
         alt=""
-        width={20}
-        height={20}
+        width={w}
+        height={h}
         className="w-full h-full object-cover"
       />
     </div>

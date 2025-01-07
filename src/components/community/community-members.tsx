@@ -113,7 +113,7 @@ export default function CommunityMembers() {
                 <span>{dayjs(member.createdAt).format("hh:mm")}</span>
                 <span>{dayjs(member.createdAt).format("DD MMM, YYYY")}</span>
               </td>
-              {member.user._id !== user?._id && (
+              {member.user.username !== user?.username && (
                 <td className="py-2 px-4">
                   <AlertDialog>
                     <AlertDialogTrigger asChild>

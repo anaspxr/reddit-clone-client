@@ -15,6 +15,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import ChangeIcon from "./settings-components/icon";
 import ChangeCommunityBanner from "./settings-components/banner";
+import CommunityType from "./settings-components/community-type";
 
 const settings = [
   {
@@ -36,6 +37,11 @@ const settings = [
     Component: ChangeCommunityBanner,
     label: "Change Banner",
     description: "Change the community banner",
+  },
+  {
+    Component: CommunityType,
+    label: "Change community type",
+    description: "Make your community Private, Public or Restricted",
   },
 ];
 

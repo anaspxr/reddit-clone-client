@@ -24,6 +24,9 @@ export default function CommunityPosts() {
 
   return (
     <div className="flex flex-col gap-4 p-2">
+      {data?.length === 0 && (
+        <div className="text-center text-lg text-gray-500">No posts yet</div>
+      )}
       {data?.map((post: Post) => (
         <PostCard
           queryKey={["community_posts", { communityName: communityName }]}

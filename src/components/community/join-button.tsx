@@ -25,6 +25,8 @@ export default function JoinButton({
 
   if (community.role === "admin" || community.role === "moderator")
     return <AdminButton communityName={community.name} role={community.role} />;
+  if (community.role === "pending")
+    return <PendingButton refetch={refetch} name={community.name} />;
   if (community.role)
     return <JoinedButton refetch={refetch} name={community.name} />;
 
@@ -39,6 +41,13 @@ export default function JoinButton({
         { name: community.name },
         { withCredentials: true }
       );
+      if (community.type !== "public") {
+        toast({
+          title: "Request sent!",
+          description:
+            "Your join request has been sent to the community moderators",
+        });
+      }
       refetch();
     } catch (error) {
       toast({
@@ -101,6 +110,51 @@ function JoinedButton({
   );
 }
 
+function PendingButton({
+  name,
+  refetch,
+}: {
+  name: string;
+  refetch: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const handleCancel = async () => {
+    try {
+      await axios.post(
+        "/community/cancel-request",
+        { name },
+        { withCredentials: true }
+      );
+      setOpen(false);
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: axiosErrorCatch(error),
+        variant: "destructive",
+      });
+    }
+  };
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="lg">
+          Request Pending
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className="text-sm flex items-center gap-2 px-4 py-2">
+        <p>Cancel request?</p>
+
+        <Button onClick={handleCancel} rounded="md" variant="default">
+          Yes
+        </Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 function AdminButton({
   communityName,
   role,
@@ -111,7 +165,7 @@ function AdminButton({
   return (
     <Link href={`/r/${communityName}/settings`}>
       <Button variant="outline" size="lg">
-        {role === "admin" ? "Admin" : "Moderator"}{" "}
+        {role === "admin" ? "Admin" : "Moderator"}
         <Settings strokeWidth={1.2} size={15} />
       </Button>
     </Link>

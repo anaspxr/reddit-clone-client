@@ -8,6 +8,6 @@ export interface ICommunity {
   creator: string;
   icon?: string;
   banner?: string;
-  role?: "admin" | "moderator" | "member";
+  role?: "admin" | "moderator" | "member" | "pending";
   memberCount: number;
 }

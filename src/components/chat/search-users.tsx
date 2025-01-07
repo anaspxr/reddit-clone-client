@@ -120,12 +120,15 @@ export default function SearchUsers() {
             <div className="py-2 border-b dark:border-gray-700">
               <p className="text-sm font-semibold px-4 pb-2">Users</p>
               {data.map((item, i) => (
-                <Link key={item.username} href={`/chat?u=${item.username}`}>
+                <Link
+                  key={item.username}
+                  href={`/chat?u=${item.username}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(addPerson(item));
+                    setOpen(false);
+                  }}>
                   <Button
-                    onClick={() => {
-                      dispatch(addPerson(item));
-                      setOpen(false);
-                    }}
                     key={item.username}
                     variant="ghost"
                     rounded="md"

@@ -62,7 +62,7 @@ export default function JoinButton({
     <Button
       onClick={handleJoin}
       variant={community.role ? "outline" : "blue"}
-      size="lg"
+      size="sm"
       className="px-4">
       join
     </Button>
@@ -93,7 +93,7 @@ function JoinedButton({
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="lg">
+        <Button variant="outline" size="sm">
           Joined
         </Button>
       </DropdownMenuTrigger>
@@ -138,7 +138,7 @@ function PendingButton({
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="lg">
+        <Button variant="outline" size="sm">
           Request Pending
         </Button>
       </DropdownMenuTrigger>
@@ -164,9 +164,9 @@ function AdminButton({
 }) {
   return (
     <Link href={`/r/${communityName}/settings`}>
-      <Button variant="outline" size="lg">
-        {role === "admin" ? "Admin" : "Moderator"}
+      <Button variant="outline" size="sm">
         <Settings strokeWidth={1.2} size={15} />
+        {role === "admin" ? "Admin" : "Moderator"}
       </Button>
     </Link>
   );

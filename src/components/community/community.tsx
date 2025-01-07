@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { ICommunity } from "@/lib/types/communityTypes";
 import Avatar from "../ui/avatar";
+import JoinRequestsButton from "./join-requests-button";
 
 export default function Community() {
   const { communityName }: { communityName: string } = useParams();
@@ -79,12 +80,16 @@ export default function Community() {
                 <Link href={`/create/post?community=${community.name}`}>
                   {(community.type === "public" ||
                     (community.role && community.role !== "pending")) && (
-                    <Button variant="outline" size="lg" className="px-4">
-                      <Plus strokeWidth={1.2} /> Create Post
+                    <Button variant="outline" size="sm" className="px-4">
+                      <Plus strokeWidth={1.2} /> Create
                     </Button>
                   )}
                 </Link>
                 <JoinButton refetch={refetch} community={community} />
+                {(community.role === "admin" ||
+                  community.role === "moderator") && (
+                  <JoinRequestsButton communityName={community.name} />
+                )}
               </div>
             </div>
             <CommunityPosts />

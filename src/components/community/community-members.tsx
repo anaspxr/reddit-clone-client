@@ -24,6 +24,8 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import JoinRequestsButton from "./join-requests-button";
+import JoinRequests from "./join-requests";
 
 interface CommunityMembersData extends ICommunity {
   members: {
@@ -85,7 +87,17 @@ export default function CommunityMembers() {
     </div>
   ) : (
     <div>
-      <h1 className="text-2xl sm:text-3xl font-semibold mb-4">Members</h1>
+      {community?.members ? (
+        <JoinRequests
+          members={community?.members}
+          communityName={communityName}
+          refetch={refetch}
+        />
+      ) : null}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl sm:text-3xl font-semibold">Members</h1>
+        <JoinRequestsButton communityName={communityName} />
+      </div>
 
       <table className="min-w-full text-left">
         <thead className="border-y">

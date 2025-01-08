@@ -61,7 +61,11 @@ export default function CommunitySettings() {
     },
   });
 
-  if (!isLoading && community?.role !== "admin") {
+  if (
+    !isLoading &&
+    community?.role !== "admin" &&
+    community?.role !== "moderator"
+  ) {
     return (
       <ErrorPage
         title="You don't have access to this section"

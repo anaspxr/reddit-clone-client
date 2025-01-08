@@ -10,22 +10,10 @@ import ErrorPage from "../ui/error-page";
 import Spinner from "../ui/spinner";
 import dayjs from "dayjs";
 import { useAppSelector } from "@/lib/store";
-import { toast } from "@/hooks/use-toast";
-import { UserRoundX } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../ui/alert-dialog";
-import { Button } from "../ui/button";
 import JoinRequestsButton from "./join-requests-button";
 import JoinRequests from "./join-requests";
+import KickUserButton from "./kick-user-button";
+import ModEditButton from "./mod-edit-button";
 
 interface CommunityMembersData extends ICommunity {
   members: {
@@ -57,17 +45,6 @@ export default function CommunityMembers() {
     },
   });
 
-  const handleKickUser = async (username: string) => {
-    try {
-      await axios.delete(`/community/${communityName}/members/${username}`, {
-        withCredentials: true,
-      });
-      refetch();
-    } catch (error) {
-      toast({ variant: "destructive", description: axiosErrorCatch(error) });
-    }
-  };
-
   if (error) {
     return (
       <ErrorPage
@@ -96,7 +73,7 @@ export default function CommunityMembers() {
       ) : null}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl sm:text-3xl font-semibold">Members</h1>
-        <JoinRequestsButton communityName={communityName} />
+        <JoinRequestsButton alwaysDisplay communityName={communityName} />
       </div>
 
       <table className="min-w-full text-left">
@@ -109,59 +86,42 @@ export default function CommunityMembers() {
           </tr>
         </thead>
         <tbody>
-          {community?.members.map((member) => (
-            <tr key={member.user._id} className="text-sm border-b">
-              <td className="py-2 px-4">
-                <div className="flex items-center">
-                  <Avatar src={member.user.avatar} className="w-6 h-6 mr-2" />
-                  u/{member.user.username}
-                  <span className="text-main ml-2">
-                    {member.user._id === user?._id && "(You)"}
-                  </span>
-                </div>
-              </td>
-              <td className="py-2 px-4 ">{member.role}</td>
-              <td className="py-2 px-4 flex flex-col gap-1">
-                <span>{dayjs(member.createdAt).format("hh:mm")}</span>
-                <span>{dayjs(member.createdAt).format("DD MMM, YYYY")}</span>
-              </td>
-              {member.user.username !== user?.username && (
+          {community?.members
+            .filter((member) => member.role !== "pending")
+            .map((member) => (
+              <tr key={member.user._id} className="text-sm border-b">
                 <td className="py-2 px-4">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        title="Kick Member"
-                        variant="destructive"
-                        size="icon">
-                        <UserRoundX strokeWidth={1.2} />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you sure you want to kick {member.user.username}?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          The user will be removed from the community members
-                          list and all his permissions will be revoked.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                          <Button variant="secondary">Cancel</Button>
-                        </AlertDialogCancel>
-                        <AlertDialogAction
-                          className="bg-red-600 hover:bg-red-700 text-white"
-                          onClick={() => handleKickUser(member.user.username)}>
-                          Kick Member
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <div className="flex items-center">
+                    <Avatar src={member.user.avatar} className="w-6 h-6 mr-2" />
+                    u/{member.user.username}
+                    <span className="text-main ml-2">
+                      {member.user._id === user?._id && "(You)"}
+                    </span>
+                  </div>
                 </td>
-              )}
-            </tr>
-          ))}
+                <td className="py-2 px-4 ">{member.role}</td>
+                <td className="py-2 px-4 flex flex-col gap-1">
+                  <span>{dayjs(member.createdAt).format("hh:mm")}</span>
+                  <span>{dayjs(member.createdAt).format("DD MMM, YYYY")}</span>
+                </td>
+                {member.user.username !== user?.username &&
+                  member.role !== "admin" && (
+                    <td className="py-2 px-4 space-x-2">
+                      <ModEditButton
+                        isMod={member.role === "moderator"}
+                        member={member}
+                        communityName={communityName}
+                        refetch={refetch}
+                      />
+                      <KickUserButton
+                        member={member}
+                        communityName={communityName}
+                        refetch={refetch}
+                      />
+                    </td>
+                  )}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

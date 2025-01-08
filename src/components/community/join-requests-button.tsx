@@ -4,8 +4,10 @@ import Link from "next/link";
 import axios from "@/lib/axios";
 
 export default function JoinRequestsButton({
+  alwaysDisplay = false,
   communityName,
 }: {
+  alwaysDisplay?: boolean;
   communityName: string;
 }) {
   const { data: count } = useQuery({
@@ -21,7 +23,7 @@ export default function JoinRequestsButton({
     },
   });
 
-  return count ? (
+  return count || alwaysDisplay ? (
     <Link href={`/r/${communityName}/settings/members?requests=true`}>
       <Button variant="main" size="sm">
         {count} Join Request{count > 1 ? "s" : ""}

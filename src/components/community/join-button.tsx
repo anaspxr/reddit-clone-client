@@ -98,7 +98,7 @@ function JoinedButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        align="end"
+        align="start"
         className="text-sm flex items-center gap-2 px-4 py-2">
         <p>Leave community?</p>
 
@@ -143,7 +143,7 @@ function PendingButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        align="end"
+        align="start"
         className="text-sm flex items-center gap-2 px-4 py-2">
         <p>Cancel request?</p>
 

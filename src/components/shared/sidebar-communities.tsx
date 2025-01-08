@@ -1,21 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { getUserCommunities } from "@/lib/store/async-thunks/user-thunks";
+import { useQuery } from "@tanstack/react-query";
+import axios from "@/lib/axios";
 
 export default function SidebarCommunities() {
   const [open, setOpen] = useState(true);
-  const { communities } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getUserCommunities());
-  }, [dispatch]);
+  const { data: communities } = useQuery<
+    {
+      name: string;
+      icon: string;
+    }[]
+  >({
+    queryKey: ["joined_communities"],
+    queryFn: async () => {
+      const { data } = await axios.get("/community/joined", {
+        withCredentials: true,
+      });
+      return data.data;
+    },
+  });
 
   return (
     <div className="border-b py-4">
@@ -41,7 +49,7 @@ export default function SidebarCommunities() {
               <Plus strokeWidth={1.2} /> Create Community
             </Button>
           </Link>
-          {communities.map((item) => (
+          {communities?.map((item) => (
             <Link key={item.name} href={`/r/${item.name}`}>
               <Button
                 key={item.name}

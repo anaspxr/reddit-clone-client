@@ -19,25 +19,51 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAppSelector } from "@/lib/store";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import useSearchParams from "@/hooks/use-search-params";
+import { useQuery } from "@tanstack/react-query";
+import axios from "@/lib/axios";
 
 export default function SelectCommunity() {
   const [open, setOpen] = useState(false);
-  const { communities, user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const value = searchParams.get(`community`)
     ? `r/${searchParams.get("community")}`
     : `u/${user?.username}`;
 
+  const { data: communities } = useQuery<
+    {
+      name: string;
+      icon: string;
+    }[]
+  >({
+    queryKey: ["joined_communities"],
+    queryFn: async () => {
+      const { data } = await axios.get("/community/joined", {
+        withCredentials: true,
+      });
+      return data.data;
+    },
+  });
+
   const values = useMemo(
     () => [
       { name: `u/${user?.username}`, icon: user?.avatar },
-      ...communities.map((c) => ({ name: `r/${c.name}`, icon: c.icon })),
+      ...(communities?.map((c) => ({ name: `r/${c.name}`, icon: c.icon })) ||
+        []),
     ],
     [communities, user]
   );
+
+  useEffect(() => {
+    if (value.startsWith("r/")) {
+      // check if the community exists in the users joined communities
+      if (!communities?.find((c) => c.name === value.slice(2))) {
+      }
+    }
+  }, [communities, value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -48,7 +74,7 @@ export default function SelectCommunity() {
           aria-expanded={open}
           className="w-[200px] justify-between h-12">
           {value
-            ? values.find((v) => v.name === value)?.name
+            ? values.find((v) => v.name === value)?.name || value
             : "Select a community"}
           <ChevronsUpDown className="opacity-50" />
         </Button>

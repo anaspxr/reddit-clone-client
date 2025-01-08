@@ -10,7 +10,11 @@ import ErrorPage from "../ui/error-page";
 import Spinner from "../ui/spinner";
 import { isAxiosError } from "axios";
 
-export default function CommunityPosts() {
+export default function CommunityPosts({
+  isCommunityAdmin,
+}: {
+  isCommunityAdmin: boolean;
+}) {
   const { communityName }: { communityName: string } = useParams();
   const { data, isLoading, error } = useQuery({
     queryKey: ["community_posts", { communityName: communityName }],
@@ -70,6 +74,7 @@ export default function CommunityPosts() {
       )}
       {data?.map((post: Post) => (
         <PostCard
+          isCommunityAdmin={isCommunityAdmin}
           queryKey={["community_posts", { communityName: communityName }]}
           key={post._id}
           post={post}

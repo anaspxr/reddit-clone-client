@@ -92,7 +92,11 @@ export default function Community() {
                 )}
               </div>
             </div>
-            <CommunityPosts />
+            <CommunityPosts
+              isCommunityAdmin={
+                community.role === "admin" || community.role === "moderator"
+              }
+            />
           </div>
         )
       )}

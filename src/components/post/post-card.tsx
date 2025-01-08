@@ -19,13 +19,16 @@ export default function PostCard({
   post,
   queryKey,
   detailed = false,
+  isCommunityAdmin = false,
 }: {
   post: Post;
   queryKey: (string | { [key: string]: string })[];
   detailed?: boolean;
+  isCommunityAdmin?: boolean;
 }) {
   const { user } = useAppSelector((state) => state.user);
-  const hasAccess = user?.username === post.creator.username;
+  const hasAccess =
+    user?.username === post.creator.username || isCommunityAdmin;
 
   return (
     <div className="border-b pb-2 relative">

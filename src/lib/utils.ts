@@ -76,3 +76,7 @@ export const showMessageTime = (current: Message, next?: Message) => {
     return null;
   }
 };
+
+export const stringToParagraphs = (text: string) => {
+  return text.split("\n").map((paragraph) => paragraph);
+};

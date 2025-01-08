@@ -1,9 +1,8 @@
 "use client";
 
 import { Post } from "@/lib/types/postTypes";
-import { CldImage, CldVideoPlayer } from "next-cloudinary";
+import { CldVideoPlayer } from "next-cloudinary";
 import React from "react";
-import { Carousel } from "react-responsive-carousel";
 import ReactButton from "./react-button";
 import { Button } from "../ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
@@ -19,6 +18,8 @@ import PostOptions from "./post-options";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/lib/store";
 import Link from "next/link";
+import { stringToParagraphs } from "@/lib/utils";
+import ImageCarousel from "./image-carousel";
 
 export default function PostDetailed() {
   const { id } = useParams();
@@ -49,26 +50,43 @@ export default function PostDetailed() {
     post && (
       <div className="space-y-2 pb-2">
         <div className="flex justify-between">
-          <Link
-            href={
-              post.community?.name
-                ? `/r/${post.community?.name}`
-                : `/u/${post.creator.username}`
-            }
-            className="flex gap-2 items-center hover:underline">
-            <Avatar
-              src={post.community?.icon || post.creator.avatar}
-              type={post.community?.name ? "community" : "user"}
-              className="w-10 h-10"
-            />
+          <div className="flex gap-2 items-center">
+            <Link
+              href={
+                post.community?.name
+                  ? `/r/${post.community.name}`
+                  : `/u/${post.creator.username}`
+              }>
+              <Avatar
+                src={post.community?.icon || post.creator.avatar}
+                type={post.community?.name ? "community" : "user"}
+                className="w-10 h-10"
+              />
+            </Link>
 
-            <div>
-              {post.community?.name && <p>r/{post.community?.name}</p>}
-              <p className="text-xs text-muted-foreground">
-                u/{post.creator.username}
-              </p>
-            </div>
-          </Link>
+            {post.community?.name ? (
+              <div>
+                <Link
+                  href={`/r/${post.community.name}`}
+                  className="hover:underline">
+                  <p>r/{post.community?.name}</p>
+                </Link>
+                <Link
+                  href={`/u/${post.creator.username}`}
+                  className="hover:underline">
+                  <p className="text-xs text-muted-foreground">
+                    u/{post.creator.username}
+                  </p>
+                </Link>
+              </div>
+            ) : (
+              <Link
+                href={`/u/${post.creator.username}`}
+                className="hover:underline">
+                <p>u/{post.creator.username}</p>
+              </Link>
+            )}
+          </div>
           <PostOptions
             queryKey={["post"]}
             onSuccess={() => router.push("/")}
@@ -78,9 +96,11 @@ export default function PostDetailed() {
         </div>
         <h1 className="font-semibold text-2xl">{post.title}</h1>
         {post.body && (
-          <pre className="text-sm text-muted-foreground max-h-40 overflow-hidden font-sans">
-            {post.body}
-          </pre>
+          <div className="space-y-2">
+            {stringToParagraphs(post.body).map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
         )}
 
         {post.video && (
@@ -92,22 +112,11 @@ export default function PostDetailed() {
           />
         )}
 
-        {post.images?.length ? (
-          <div className="flex justify-center box">
-            <Carousel useKeyboardArrows={true}>
-              {post.images.map((image, i) => (
-                <CldImage
-                  className="slide"
-                  key={i}
-                  alt=""
-                  width="1500"
-                  height="500"
-                  src={image}
-                />
-              ))}
-            </Carousel>
-          </div>
-        ) : null}
+        <div className="flex items-center justify-center">
+          {post.images?.length ? (
+            <ImageCarousel postId={post._id} images={post.images} />
+          ) : null}
+        </div>
 
         <div className="flex gap-2 items-center">
           <ReactButton

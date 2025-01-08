@@ -2,7 +2,6 @@
 
 import { Comment } from "@/lib/types/postTypes";
 import React, { useState } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
 import { getPostedTimeDiff } from "@/lib/utils";

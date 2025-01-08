@@ -5,16 +5,15 @@ import React from "react";
 import { Button } from "../ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
 import { CldImage, CldVideoPlayer } from "next-cloudinary";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "next-cloudinary/dist/cld-video-player.css";
 import ReactButton from "./react-button";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
-import { getPostedTimeDiff } from "@/lib/utils";
+import { getPostedTimeDiff, stringToParagraphs } from "@/lib/utils";
 import Avatar from "../ui/avatar";
 import { useAppSelector } from "@/lib/store";
 import PostOptions from "./post-options";
+import ImageCarousel from "./image-carousel";
 
 export default function PostCard({
   post,
@@ -70,37 +69,47 @@ export default function PostCard({
         className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 block rounded-md space-y-2 pt-12">
         <h1 className="font-semibold">{post.title}</h1>
         {post.body && (
-          <p
-            className={`text-sm text-muted-foreground ${
+          <div
+            className={`text-sm text-muted-foreground space-y-2 ${
               !detailed ? "max-h-40" : ""
             } overflow-hidden`}>
-            {post.body}
-          </p>
+            {stringToParagraphs(post.body).map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
         )}
 
         {post.video && (
-          <CldVideoPlayer
-            width="1920"
-            height="1080"
-            src={post.video}
-            controls={true}
-          />
+          <div
+            className="max-w-xl max-h-96"
+            onClick={(e) => e.preventDefault()}>
+            <CldVideoPlayer
+              aspectRatio="16:9"
+              logo={false}
+              width="1920"
+              height="1080"
+              src={post.video}
+              controls={true}
+            />
+          </div>
         )}
 
         {post.images?.length ? (
-          <div className="flex justify-center box">
-            <Carousel useKeyboardArrows={true}>
-              {post.images.map((image, i) => (
-                <CldImage
-                  className="slide"
-                  key={i}
-                  alt=""
-                  width="1500"
-                  height="500"
-                  src={image}
-                />
-              ))}
-            </Carousel>
+          <div className="relative flex justify-center items-center box overflow-hidden">
+            {/* Background Blurred Image */}
+            <CldImage
+              height={500}
+              width={500}
+              className="absolute top-0 left-0 w-full h-full object-cover blur-xl opacity-30"
+              alt="background"
+              src={post.images[0]} // Use the first image for the background
+            />
+
+            <ImageCarousel
+              postId={post._id}
+              images={post.images}
+              className="max-w-xl max-h-96"
+            />
           </div>
         ) : null}
 

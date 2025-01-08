@@ -7,8 +7,8 @@ import React from "react";
 import PostCard from "../post/post-card";
 import { Post } from "@/lib/types/postTypes";
 import ErrorPage from "../ui/error-page";
-import Spinner from "../ui/spinner";
 import { isAxiosError } from "axios";
+import PostCardSkeleton from "../skeletons/post-skeleton";
 
 export default function CommunityPosts({
   isCommunityAdmin,
@@ -53,7 +53,10 @@ export default function CommunityPosts({
   });
 
   return isLoading ? (
-    <Spinner />
+    <div className="flex flex-col gap-4 p-2">
+      <PostCardSkeleton />
+      <PostCardSkeleton />
+    </div>
   ) : error ? (
     <ErrorPage
       title={
@@ -72,6 +75,7 @@ export default function CommunityPosts({
       {data?.length === 0 && (
         <div className="text-center text-lg text-gray-500">No posts yet</div>
       )}
+
       {data?.map((post: Post) => (
         <PostCard
           isCommunityAdmin={isCommunityAdmin}

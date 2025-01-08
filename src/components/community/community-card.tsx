@@ -11,7 +11,7 @@ export default function CommunityCard({
 }) {
   return (
     <Link href={`/r/${community.name}`}>
-      <div className="rounded-xl border shadow p-2 hover:bg-gray-100 dark:hover:bg-gray-900 space-y-2">
+      <div className="rounded-xl border shadow p-2 hover:bg-gray-100 dark:hover:bg-gray-900 space-y-2 h-full">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 w-full">
             <div className="flex-shrink-0">

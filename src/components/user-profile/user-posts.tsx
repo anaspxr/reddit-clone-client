@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import PostCard from "../post/post-card";
 import { Post } from "@/lib/types/postTypes";
 import { useParams } from "next/navigation";
+import PostCardSkeleton from "../skeletons/post-skeleton";
 
 export default function UserPosts() {
   const { username }: { username: string } = useParams();
@@ -20,6 +21,12 @@ export default function UserPosts() {
 
   return (
     <div className="flex flex-col gap-4 p-2">
+      {isLoading && (
+        <>
+          <PostCardSkeleton />
+          <PostCardSkeleton />
+        </>
+      )}
       {data?.map((post: Post) => (
         <PostCard
           queryKey={["posts", { username: username }]}

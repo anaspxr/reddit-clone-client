@@ -15,6 +15,7 @@ import axios, { axiosErrorCatch } from "@/lib/axios";
 import { ICommunity } from "@/lib/types/communityTypes";
 import Avatar from "../ui/avatar";
 import JoinRequestsButton from "./join-requests-button";
+import SortButton from "../feed/sort-button";
 
 export default function Community() {
   const { communityName }: { communityName: string } = useParams();
@@ -77,10 +78,22 @@ export default function Community() {
                 </div>
               </div>
               <div className="flex items-center gap-2 my-2">
+                <SortButton
+                  sortTypes={[
+                    {
+                      label: "New",
+                      value: "recent",
+                    },
+                    {
+                      label: "Top",
+                      value: "week",
+                    },
+                  ]}
+                />
                 <Link href={`/create/post?community=${community.name}`}>
                   {(community.type === "public" ||
                     (community.role && community.role !== "pending")) && (
-                    <Button variant="outline" size="sm" className="px-4">
+                    <Button variant="outline" size="sm">
                       <Plus strokeWidth={1.2} /> Create
                     </Button>
                   )}

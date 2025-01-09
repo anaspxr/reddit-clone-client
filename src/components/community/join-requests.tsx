@@ -35,7 +35,7 @@ export default function JoinRequests({
   }[];
 }) {
   const [loading, setLoading] = React.useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, setSearchParams } = useSearchParams();
   const open = searchParams.get("requests") === "true";
   const requests = members.filter((member) => member.role === "pending");
 

@@ -28,7 +28,7 @@ import axios from "@/lib/axios";
 export default function SelectCommunity() {
   const [open, setOpen] = useState(false);
   const { user } = useAppSelector((state) => state.user);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, setSearchParams } = useSearchParams();
   const value = searchParams.get(`community`)
     ? `r/${searchParams.get("community")}`
     : `u/${user?.username}`;

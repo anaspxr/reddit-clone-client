@@ -20,7 +20,7 @@ const types = [
 ];
 
 export default function SelectType() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, setSearchParams } = useSearchParams();
   const currentType = searchParams.get("type") || "text";
 
   return (

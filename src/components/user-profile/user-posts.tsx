@@ -4,17 +4,21 @@ import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "../post/post-card";
 import { Post } from "@/lib/types/postTypes";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import PostCardSkeleton from "../skeletons/post-skeleton";
 
 export default function UserPosts() {
   const { username }: { username: string } = useParams();
+  const sort = useSearchParams().get("sort");
   const { data, isLoading } = useQuery({
-    queryKey: ["posts", { username: username }],
+    queryKey: ["posts", { username: username, sort }],
     queryFn: async () => {
-      const { data } = await axios.get(`/public/user/${username}/posts`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `/public/user/${username}/posts?sort=${sort}`,
+        {
+          withCredentials: true,
+        }
+      );
       return data.data;
     },
   });

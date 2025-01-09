@@ -59,7 +59,7 @@ export default function ImageCarousel({
         <CarouselNext className="hidden sm:flex" />
       </div>
       <div className="absolute bottom-2 flex w-full justify-center">
-        <p className="p-1 w-16 bg-black bg-opacity-50 text-center rounded-full text-white ">
+        <p className="py-1 px-2  text-xs bg-black bg-opacity-50 text-center rounded-full text-white ">
           {current} / {count}
         </p>
       </div>

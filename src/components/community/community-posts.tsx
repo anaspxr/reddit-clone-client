@@ -2,7 +2,7 @@
 
 import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
 import PostCard from "../post/post-card";
 import { Post } from "@/lib/types/postTypes";
@@ -16,12 +16,14 @@ export default function CommunityPosts({
   isCommunityAdmin: boolean;
 }) {
   const { communityName }: { communityName: string } = useParams();
+  const sort = useSearchParams().get("sort");
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ["community_posts", { communityName: communityName }],
+    queryKey: ["community_posts", { communityName, sort }],
     queryFn: async () => {
       try {
         const { data } = await axios.get(
-          `/public/community/${communityName}/posts`,
+          `/public/community/${communityName}/posts?sort=${sort}`,
           {
             withCredentials: true,
           }

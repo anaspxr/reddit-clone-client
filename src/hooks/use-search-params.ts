@@ -12,15 +12,22 @@ export default function useSearchParams() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const setSearchParam = useCallback(
+  const getNewPath = useCallback(
     (name: string, value: string | null) => {
       const params = new URLSearchParams(searchParams.toString());
       if (value === null) params.delete(name);
       else params.set(name, value);
-      router.push(pathname + "?" + params.toString());
+      return pathname + "?" + params.toString();
     },
-    [pathname, router, searchParams]
+    [pathname, searchParams]
   );
 
-  return [searchParams, setSearchParam] as const;
+  const setSearchParams = useCallback(
+    (name: string, value: string | null) => {
+      router.push(getNewPath(name, value));
+    },
+    [getNewPath, router]
+  );
+
+  return { searchParams, setSearchParams, getNewPath } as const;
 }

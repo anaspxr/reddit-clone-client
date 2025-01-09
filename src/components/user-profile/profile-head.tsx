@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import UserInfoCard from "./user-info-card";
 import Link from "next/link";
+import SortButton from "../feed/sort-button";
 
 export default function ProfileHead({ children }: { children: ReactNode }) {
   const {
@@ -49,13 +50,22 @@ export default function ProfileHead({ children }: { children: ReactNode }) {
             )}
             <UserInfoCard />
             <ProfileMenu username={username} />
-            {isOwnProfile && (
-              <Link href="/create/post" className="block my-2">
-                <Button variant="outline" size="sm">
-                  <Plus strokeWidth={1} /> Create Post
-                </Button>
-              </Link>
-            )}
+            <div className="flex items-center gap-2">
+              <SortButton
+                defaultSort="New"
+                sortTypes={[
+                  { label: "New", value: "recent" },
+                  { label: "Top", value: "allTime" },
+                ]}
+              />
+              {isOwnProfile && (
+                <Link href="/create/post">
+                  <Button variant="outline" size="sm">
+                    <Plus strokeWidth={1} /> Create Post
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
           <div>{children}</div>
         </div>

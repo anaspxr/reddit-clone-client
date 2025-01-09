@@ -1,3 +1,4 @@
+import PopularCommunities from "@/components/feed/popular-communities";
 import PopularFeed from "@/components/feed/popular-feed";
 import SortButton from "@/components/feed/sort-button";
 
@@ -19,7 +20,11 @@ export default async function page({
   return (
     <div>
       <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
-        Popular {popularTypes[sort]}
+        Popular Communities
+      </h1>
+      <PopularCommunities />
+      <h1 className="text-2xl sm:text-3xl font-semibold mb-2">
+        Popular posts {popularTypes[sort]}
       </h1>
       <div className="border-b   pb-2">
         <SortButton

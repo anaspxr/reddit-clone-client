@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import axios, { axiosErrorCatch } from "@/lib/axios";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 export default function CommentInput({
   postId,
@@ -15,6 +16,7 @@ export default function CommentInput({
   commentId?: string;
 }) {
   const queryClient = useQueryClient();
+  const sort = useSearchParams().get("sort") || "recent";
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ export default function CommentInput({
       if (!commentId) {
         // add the new comment to comments array if its on main thread
         queryClient.setQueryData(
-          ["comments", { id: postId }],
+          ["comments", { id: postId, sort }],
           (old: Comment[]) => {
             const newData = [data.data, ...old];
             return newData;

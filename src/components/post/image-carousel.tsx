@@ -55,18 +55,21 @@ export default function ImageCarousel({
         ))}
       </CarouselContent>
       {images.length > 1 && (
-        <div onClick={(e) => e.preventDefault()}>
-          {current !== 1 && <CarouselPrevious className="hidden sm:flex " />}
-          {current !== images.length && (
-            <CarouselNext className="hidden sm:flex" />
-          )}
-        </div>
+        <>
+          <div onClick={(e) => e.preventDefault()}>
+            {current !== 1 && <CarouselPrevious className="hidden sm:flex " />}
+            {current !== images.length && (
+              <CarouselNext className="hidden sm:flex" />
+            )}
+          </div>
+
+          <div className="absolute bottom-2 flex w-full justify-center">
+            <p className="py-1 px-2  text-xs bg-black bg-opacity-50 text-center rounded-full text-white ">
+              {current} / {count}
+            </p>
+          </div>
+        </>
       )}
-      <div className="absolute bottom-2 flex w-full justify-center">
-        <p className="py-1 px-2  text-xs bg-black bg-opacity-50 text-center rounded-full text-white ">
-          {current} / {count}
-        </p>
-      </div>
     </Carousel>
   );
 }

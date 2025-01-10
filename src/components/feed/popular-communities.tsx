@@ -78,7 +78,7 @@ export default function PopularCommunities() {
         {data?.map((community) => (
           <CarouselItem
             key={community._id}
-            className="sm:basis-1/2 lg:basis-1/3">
+            className="sm:basis-1/2 lg:basis-1/3 text-white">
             <Link href={`/r/${community.name}`}>
               <div className="rounded-3xl border h-36 overflow-hidden relative flex items-end group">
                 {community.banner && (

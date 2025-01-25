@@ -28,13 +28,13 @@ This project was developed to explore and demonstrate the core functionalities o
  - Socket.io
 
  ### Backend:
- - Node.js
- - Express.js
- - TypeScript
- - MongoDB
- - Node mailer
- - JSON Web Tokens (JWT) for authentication
- - Socket.io
+  - Node.js
+  - Express.js
+  - TypeScript
+  - MongoDB
+  - Node mailer
+  - JSON Web Tokens (JWT) for authentication
+  - Socket.io
 
    <br>
    <br>
